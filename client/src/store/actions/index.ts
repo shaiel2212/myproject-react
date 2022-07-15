@@ -1,0 +1,40 @@
+export const TEAMSACTIONS = {
+    GET_TEAMS: {
+        IS_LOADING: "IS_LOADING",
+        SUCCESS: "SUCCESS"
+    }
+}
+
+export const APPOINTMENTSACCTION = {
+    GET_APPOINTMENTS: {
+        IS_LOADING: "IS_LOADING",
+        SUCCESS: "SUCCESS"
+    }
+}
+
+export const AUTHACTIONS = {
+    LOGIN_IS_LOADING: "IS_LOADING",
+    LOGIN_SUCCESS: "SUCCESSSS",
+    LOGIN_INVISIBLE: "LOGIN_INVISIBLE",
+    REGISTER_IS_LOADING: "IS_LOADING",
+    REGISTER_SUCCESS: "SUCCESS"
+}
+
+export const VACATIONS = {
+    ADD_VACATION: {
+        IS_LOADING: "IS_LOADING",
+        SUCCESS: "SUCCESS"
+    },
+    GET_VACATIONS: {
+        IS_LOADING: "IS_LOADING",
+        SUCCESS: "SUCCESS",
+        ERROR: "ERROR"
+    }
+}
+
+export const MODAL = {
+    TOGGLE_MODAL: "TOGGLE_MODAL",
+    MODAL_ERROR: {
+        CLOSE_MODAL: "CLOSE_MODAL",
+    }
+}

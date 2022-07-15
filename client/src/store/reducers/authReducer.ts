@@ -1,0 +1,35 @@
+import { AUTHACTIONS } from "../actions"
+import {getTokenLS, setTokenLS} from "./helpers/auth"
+
+const initialState = {
+    token: getTokenLS(),
+    isLoading: false,
+    userName: ""
+}
+
+export const authReducer = (state: any = initialState, action: { type: string, payload?: any }) => {
+    switch (action.type) {
+        case AUTHACTIONS.LOGIN_IS_LOADING: {
+            return { ...state, isLoading: action?.payload }
+        }
+        case AUTHACTIONS.LOGIN_SUCCESS: {
+            console.log(action?.payload?.data.token)
+            setTokenLS(action?.payload?.data.token)
+            return { ...state, token: action?.payload?.token, userName: action?.payload?.data.userName }
+        }
+        case AUTHACTIONS.LOGIN_INVISIBLE: {
+            console.log(action?.payload)
+            return {...state, loginInvisible: action?.payload}
+        }
+        case AUTHACTIONS.REGISTER_IS_LOADING: {
+            console.log(action?.payload)
+            return {...state, isLoading: action?.payload}
+        }
+        case AUTHACTIONS.REGISTER_SUCCESS: {
+            console.log(action?.payload)
+            return {...state}
+        }
+        default:
+            return state
+    }
+}
