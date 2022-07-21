@@ -1,26 +1,39 @@
 import { getConnection } from "../../db";
+import { addVacationQuery, getVacationQuery } from "./query";
 
-export async function addVacation(vacation: any) {
-    const { title, description, destination, img, checkIn, checkOut, price } = vacation
-    const addVacationQuery = (`INSERT INTO vacationSite.vacations (description, destination, img, checkInDate, checkOutDate, price, numberOfFollowers, title) VALUES (?,?,?,?,?,?,?,?);`);
-    const numberOfFollowers = 0
-    console.log(vacation, numberOfFollowers)
+interface IaddVacation {
+    title: string,
+    description: string,
+    destination: string,
+    img: string,
+    checkIn: string,
+    checkOut: string,
+    price: number,
+    numberOfFollowers: undefined
+}
+
+export async function addVacation(vacation: IaddVacation) {
+    const { title, description, destination, img, checkIn, checkOut, price, numberOfFollowers } = vacation
+    const query = addVacationQuery()
+    console.log("addVacation", vacation)
     try {
-        const row = await getConnection().execute(addVacationQuery, [description, destination, img, checkIn, checkOut, price, numberOfFollowers, title]);
+
+        const row = await getConnection().execute(query, [title, description, destination, img, checkIn, checkOut, price]);
+      
         return row
-    }catch(ex) {
+    } catch (ex) {
         console.log(ex)
         return null
     }
 }
 
 export async function getVacations() {
-    const getVacationQuery = (`SELECT * FROM vacationSite.vacations`)
-    try{
-        const [results] = await getConnection().execute(getVacationQuery)
-        console.log(results)
-        return results[0]
-    }catch(ex){
+    const query = getVacationQuery();
+    try {
+        const [results] = await getConnection().execute(query)
+
+        return results
+    } catch (ex) {
         console.log(ex)
     }
 }

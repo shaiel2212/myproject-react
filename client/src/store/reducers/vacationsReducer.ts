@@ -1,4 +1,4 @@
-import { MODAL, VACATIONS } from "../actions"
+import { MODAL, ADD_VACATION, GET_VACATIONS, DELETE_VACATION } from "../actions"
 
 
 
@@ -19,26 +19,41 @@ const initialState = {
 }
 
 export const vacationsReducer = (state: any = initialState, action: { type: string, payload?: any }) => {
-    switch (action.type) {
-        case VACATIONS.ADD_VACATION.IS_LOADING: {
-            return { ...state, isLoading: action.payload }
-        }
-        case VACATIONS.ADD_VACATION.SUCCESS: {
-            console.log(action.payload)
-            state.vacations.push(action?.payload)
-            return { ...state }
-        }
-        case VACATIONS.GET_VACATIONS.IS_LOADING: {
+    console.log("vacationsReducer", state)
+    switch (action?.type) {
+
+        case ADD_VACATION.ADD_VACATION_IS_LOADING: {
             return { ...state, isLoading: action?.payload }
         }
-        case VACATIONS.GET_VACATIONS.SUCCESS: {
-            console.log(action?.payload)
+        case ADD_VACATION.ADD_VACATION_SUCCESS: {
+            state.vacations.push(action?.payload)
+            console.log("ADD_VACATION.SUCCESS", action?.payload)
+            console.log("state", state)
+            return { ...state }
+        }
+        case GET_VACATIONS.GET_VACATIONS_IS_LOADING: {
+            console.log("GET_VACATIONS.IS_LOADING", action.payload)
+            console.log("state", state)
+            return { ...state, isLoading: action?.payload }
+        }
+        case GET_VACATIONS.GET_VACATIONS_SUCCESS: {
+            console.log("action.payload", action.payload)
+            console.log("state", state)
+            console.log("GET_VACATIONS.SUCCESS", action?.payload)
             return { ...state, vacations: action?.payload }
         }
-        case VACATIONS.GET_VACATIONS.ERROR: {
+        case GET_VACATIONS.GET_VACATIONS_ERROR: {
             const { message } = action.payload
             console.log(action?.payload)
             return { appModalError: { ...state.appModalError, isOpen: true, header: "Get Vacation Failed", message } }
+        }
+        case DELETE_VACATION.DELETE_VACATION_IS_LOADING: {
+            console.log(action?.payload)
+            return { ...state, vacations: action?.payload }
+        }
+        case DELETE_VACATION.DELETE_VACATION_IS_SUCCESS: {
+            console.log(action?.payload)
+            return { ...state, vacations: action?.payload }
         }
         case MODAL.MODAL_ERROR.CLOSE_MODAL: {
             return {

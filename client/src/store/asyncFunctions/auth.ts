@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { store } from "..";
-import { APPOINTMENTSACCTION, AUTHACTIONS, MODAL } from "../actions";
-import {  Iregister, login, register } from "../services/authServices";
+import { AUTHACTIONS, MODAL } from "../actions";
+import { Iregister, login, register } from "../services/authServices";
 
 function getDispatch() {
     return store.dispatch
@@ -27,7 +27,7 @@ export async function registerACTION(payload: any) {
     dispatch(registerIsLoading(true))
     try {
         const data: any = await register(payload)
-        console.log("registerACTION",data)
+        console.log("registerACTION", data)
         if (data.message === "Success") {
             dispatch(registerSuccess(true))
         }
@@ -40,12 +40,12 @@ export async function registerACTION(payload: any) {
 }
 
 function registerIsLoading(payload: boolean) {
-    return { type: AUTHACTIONS.REGISTER_IS_LOADING, payload }
+    return { type: AUTHACTIONS.REGISTER.REGISTER_IS_LOADING, payload }
 }
 
 function registerSuccess(payload: boolean) {
     console.log(payload)
-    return { type: AUTHACTIONS.REGISTER_SUCCESS, payload }
+    return { type: AUTHACTIONS.REGISTER.REGISTER_SUCCESS, payload }
 }
 
 function loginIsLoading(payload: boolean) {
@@ -58,5 +58,5 @@ function loginSuccess(payload: any) {
 }
 
 function getVacationError(payload: any) {
-    return { type: MODAL.MODAL_ERROR,payload };
+    return { type: MODAL.MODAL_ERROR, payload };
 }

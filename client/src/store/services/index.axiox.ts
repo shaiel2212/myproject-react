@@ -1,7 +1,7 @@
 import axios, { AxiosError } from "axios";
 import { getTokenLS } from "../reducers/helpers/auth";
 import { store } from "../index";
-import { AUTHACTIONS, MODAL } from "../actions";
+import { ADD_VACATION, MODAL, AUTHACTIONS, GET_VACATIONS } from "../actions";
 const { dispatch } = store;
 const axiosInstance: any = axios.create({ baseURL: "http://localhost:3500" });
 axiosInstance.interceptors.request.use((request: any) => {
@@ -25,7 +25,7 @@ function openModalError() {
         payload: {
             isOpen: true,
             header: "Error",
-            message: "Something went wrong! Please contact Gal Amoyal",
+            message: "Something went wrong! Please contact to Gal Amoyal",
         },
     });
 }

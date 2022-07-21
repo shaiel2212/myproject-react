@@ -9,7 +9,6 @@ import vacationRouter from "./vacations/index"
 
 initDB()
 
-dotenv.config({ path: "../.env" })
 const port = process.env.PORT
 console.log(port)
 
@@ -17,14 +16,15 @@ const app = express()
 app.use(cors())
 app.use(bodyParser.json())
 
-app.get("/", (req, res) => {
-    res.send("API is working")
-})
+
+app.get("/healthcheck", async (req, res) => {
+  return res.send("Api is working!");
+});
 
 app.use(loginRouter)
 app.use(registerRouter)
 app.use(vacationRouter)
 
-app.listen(port, () => {
-    console.log(`Server is running on port ${port}`)
+app.listen(port || 5000, () => {
+  console.log(`Server Running on Port ${port}`)
 })

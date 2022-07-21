@@ -2,7 +2,6 @@ import React, { useEffect } from 'react';
 import { BrowserRouter as Router, Route, Link, Routes } from 'react-router-dom';
 import HomePage from './components/HomePage';
 import { LoginPage } from './components/auth/loginPage';
-import { getTeamsAction } from './store/asyncFunctions/teams';
 import { RegisterPage } from './components/auth/registerPage';
 import { useSelector } from 'react-redux';
 import { store } from './store';
@@ -10,6 +9,8 @@ import { Container, Nav, Navbar, NavDropdown } from 'react-bootstrap';
 import AddVacation from './components/addVacation';
 import { getVacationACTION } from './store/asyncFunctions/vacations';
 import AppModal from './components/modal';
+import { NotFound } from './components/NotFound';
+import VacationCard from './components/vacation/vaction';
 
 
 
@@ -22,20 +23,25 @@ interface IRoute {
 
 let isLogin = false
 
+const routes = [
+  { path: "/login", linkText: "Login", element: <LoginPage />, invisible: false },
+  { path: "/vacations", linkText: "Home", element: <VacationCard />, invisible: false },
+  { path: "/register", linkText: "Register", element: <RegisterPage />, invisible: false },
+  { path: "/add-vacation", linkText: "Add Vacation", element: <AddVacation />, invisible: false },
+  { path: "*", element: <NotFound />, linkText: "", invisible: true },
 
+]
 
 function App() {
-  const routes = [
-    { path: "/login", linkText: "Login", element: <LoginPage />, invisible: false },
-    { path: "/", linkText: "Home", element: <HomePage />, invisible: false },
-    { path: "/register", linkText: "Register", element: <RegisterPage />, invisible: false },
-    { path: "/add-vacation", linkText: "Add Vacation", element: <AddVacation />, invisible: false }
-  ]
+
 
   const userName = useSelector((state: any) => state.authReducer.userName)
 
+
+
+
   useEffect(() => {
-    getVacationACTION()
+     getVacationACTION()
   }, [])
 
   return (
@@ -43,7 +49,7 @@ function App() {
       <Navbar expand="lg" sticky="top" variant='dark' bg="dark" className="App" key={Math.random()} style={{ textAlign: "left" }}>
         <Container>
 
-          <Navbar.Brand style={{ margin: "10px", fontSize: "24px" }} as={Link} to="/">Alon's App</Navbar.Brand>
+          <Navbar.Brand style={{ margin: "10px", fontSize: "24px" }} as={Link} to="/">Vacation App</Navbar.Brand>
         </Container>
         {routes.filter((route: IRoute) => !route.invisible).map((route: IRoute) => (
           <span key={route.linkText} style={{ margin: "5px" }}>

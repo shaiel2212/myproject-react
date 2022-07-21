@@ -1,5 +1,6 @@
 
-import axios,{ AxiosError } from "axios"
+import axios, { AxiosError } from "axios"
+import axiosInstance from "./index.axiox"
 
 const BASEURL = "http://localhost:3500"
 
@@ -10,20 +11,25 @@ export interface IaddVacations {
     destination: string,
     img: string,
     checkInDate: string,
-    checkOutDate:string,
+    checkOutDate: string,
     price: string,
     numberOfFollowers: number
 }
 
 
 
-export async function addVacationToDB(vacation: IaddVacations) {
-    const data = await axios.post(`${BASEURL}/add-vacation`, vacation)
+export async function addVacationToDB(vacation: IaddVacations): Promise<any> {
+    const data = await axiosInstance.post(`${BASEURL}/add-vacation`, vacation)
     return data
 }
 
 export async function getVacationsFromDB() {
-    const data = await axios.get(`${BASEURL}/vacations`)
-    console.log(data)
+    const  data  = await axiosInstance.get(`${BASEURL}/vacations`)
+    console.log("getVacationsFromDB", data)
+    return data
+}
+
+export async function deleteVacation(payload: string): Promise<any> {
+    const { data } = await axiosInstance.delete(`/orders?id=${payload}`)
     return data
 }

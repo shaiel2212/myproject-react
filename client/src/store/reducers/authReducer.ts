@@ -21,11 +21,11 @@ export const authReducer = (state: any = initialState, action: { type: string, p
             console.log(action?.payload)
             return {...state, loginInvisible: action?.payload}
         }
-        case AUTHACTIONS.REGISTER_IS_LOADING: {
+        case AUTHACTIONS.REGISTER.REGISTER_IS_LOADING: {
             console.log(action?.payload)
             return {...state, isLoading: action?.payload}
         }
-        case AUTHACTIONS.REGISTER_SUCCESS: {
+        case AUTHACTIONS.REGISTER.REGISTER_SUCCESS: {
             console.log(action?.payload)
             return {...state}
         }

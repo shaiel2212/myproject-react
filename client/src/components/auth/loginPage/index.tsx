@@ -18,18 +18,19 @@ export function LoginPage() {
     async function login() {
         const result = await loginACTION({ userName, password });
         console.log("result login", result)
-        if (result?.data.message === "Success") {
-            console.log(result)
+        if (result?.data.token) {
+            console.log("result?.data.token", result?.data.token)
             reduxDispatch(loginSuccessRedirect(true))
-            navigate("/")
+            navigate("/vacations")
+            
         }
     }
 
     function loginSuccessRedirect(payload: boolean) {
+        console.log(payload)
         return { type: AUTHACTIONS.LOGIN_INVISIBLE, payload }
     }
 
-    if (typeof token === "string") return <Navigate to="/" />;
     return (
         <div className="login-form">
             <div className="form-body">

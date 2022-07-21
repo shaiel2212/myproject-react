@@ -1,5 +1,5 @@
 import { store } from "../index"
-import { MODAL, VACATIONS } from "../actions"
+import { MODAL, GET_VACATIONS, ADD_VACATION, DELETE_VACATION } from "../actions"
 import { addVacationToDB, getVacationsFromDB } from "../services/vacationServices"
 
 function getDispatch() {
@@ -13,7 +13,7 @@ export interface IaddVacation {
     destination: string,
     img: string,
     checkInDate: string,
-    checkOutDate:string,
+    checkOutDate: string,
     price: string,
     numberOfFollowers: string
 }
@@ -38,8 +38,8 @@ export async function getVacationACTION() {
     dispatch(getVacationsIsLoading(true))
     try {
         const results = await getVacationsFromDB()
-        console.log(results.data)
-        _openSuccessModal(results.data)
+        console.log("getVacationACTION", results.data)
+        // _openSuccessModal(results.data)
         dispatch(getVacationSuccess(results.data))
         return results.data
     } catch (err) {
@@ -59,18 +59,29 @@ export async function getVacationACTION() {
 }
 
 function getVacationsIsLoading(payload: boolean) {
-    return { type: VACATIONS.GET_VACATIONS.IS_LOADING, payload }
+    return { type: GET_VACATIONS.GET_VACATIONS_IS_LOADING, payload }
 }
 
 function getVacationSuccess(payload: any) {
-    return { type: VACATIONS.GET_VACATIONS.SUCCESS, payload }
+    return { type: GET_VACATIONS.GET_VACATIONS_SUCCESS, payload }
 }
 
 function addVacationIsLoading(payload: boolean) {
-    return { type: VACATIONS.ADD_VACATION.IS_LOADING, payload }
+    return { type: ADD_VACATION.ADD_VACATION_IS_LOADING, payload }
 }
 
 function addVacationSuccess(payload: any) {
     console.log(payload)
-    return { type: VACATIONS.ADD_VACATION.SUCCESS, payload }
+    return { type: ADD_VACATION.ADD_VACATION_SUCCESS, payload }
+}
+
+
+function deleteVacationSuccess(payload: any) {
+    console.log(payload)
+    return { type: DELETE_VACATION.DELETE_VACATION_IS_SUCCESS, payload }
+}
+
+function deleteVacationIsLoading(payload: any) {
+    console.log(payload)
+    return { type: DELETE_VACATION.DELETE_VACATION_IS_LOADING, payload }
 }

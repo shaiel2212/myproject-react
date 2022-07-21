@@ -1,10 +1,11 @@
-export const getUserQuery = `SELECT * FROM vacationSite.users`
-export function getTeamByIDQuery(team: string) {
-    const query = `SELECT team_id FROM UITeams.teams WHERE team_name = "${team}"`
+export function getUserByUserName(userName: string) {
+    const query =  `
+    SELECT * FROM users WHERE user_name = ?
+    `;
     return query
 }
 
-export function getAppointmentsByTeamIDQuery(id: number) {
-    const query = `SELECT * FROM UITeams.appointments WHERE team_id = "${id}"`
+export function addUserQuery() {
+    const query = (`INSERT INTO vacation-app.users (user_name, first_name, last_name, password, isAdmin) VALUES (?,?,?,?,0);`);
     return query
 }

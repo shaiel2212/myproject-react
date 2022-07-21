@@ -15,11 +15,11 @@ function AddVacation() {
 
     function addVacation() {
         console.log(description, destination, img, checkIn, checkOut, price, title)
-        AddVacationACTION({ description, destination, img, checkIn, checkOut, price, title })
+        AddVacationACTION({ title, description, destination, img, checkIn, checkOut, price })
     }
 
     return (
-        <div className="container" style={{ textAlign: "center" }}>
+        <div className="container" style={{ textAlign: "center" ,  }}>
             <h1>Add Vacation</h1>
             <Form onSubmit={(e) => {
                 e.preventDefault()
