@@ -16,6 +16,9 @@ export const modalReducer = (state: any = initialState, action: { type: string, 
         case MODAL.TOGGLE_MODAL: {
             return { ...state, ...action.payload }
         }
+        case MODAL.SET_MODAL_DATA: {
+            return  {message: action.payload.message , header: action.payload.header , isOpen : true}
+        }
         default:
             return state
     }

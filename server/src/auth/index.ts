@@ -56,6 +56,8 @@ async function loginHandler(req: any, res: any, next: any) {
 }
 
 async function registerHandler(req: any, res: any, next: any) {
+  console.log(req.body);
+  
   const { userName, firstName, lastName, password } = req.body;
   try {
     const isUser = await isUserExist(userName)

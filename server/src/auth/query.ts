@@ -6,6 +6,6 @@ export function getUserByUserName(userName: string) {
 }
 
 export function addUserQuery() {
-    const query = (`INSERT INTO vacation-app.users (user_name, first_name, last_name, password, isAdmin) VALUES (?,?,?,?,0);`);
+    const query = (`INSERT INTO users (user_name, first_name, last_name, password, isAdmin) VALUES (?,?,?,?,?);`);
     return query
 }

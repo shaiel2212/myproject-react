@@ -1,7 +1,7 @@
 const mysql2 = require("mysql2/promise");
 import dotenv from "dotenv"
 
-dotenv.config({ path: "../.env" })
+dotenv.config()
 
 const {
   MYSQL_DB_HOST: host,

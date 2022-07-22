@@ -4,12 +4,15 @@ import { addUserQuery, getUserByUserName } from "./query";
 
 
 async function isUserExist(userName: any) {
-    const query = getUserByUserName(userName)
+    const query = getUserByUserName(userName);
+    console.log(query , userName);
+    
     const [result] = await getConnection().execute(query, [userName]);
     return result[0];
 }
 async function addUser(user: any) {
     const { userName, firstName, lastName, password } = user
+    console.log(user)
     const isAdmin = 0;
     const query = addUserQuery()
     const newPassword = await hashPassword(password)

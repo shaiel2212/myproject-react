@@ -1,13 +1,21 @@
-const addVacationQuery = (): string => {
-return  (`INSERT INTO vacations (title, desc, destination, imgUrl, checkInDate, checkOutDate, price, numberOfFollowers) VALUES (?,?,?,?,?,?,?,?);`);
-
+// CRUD vacations
+export const createVacationQuery = (): string => {
+    return  (`INSERT INTO vacations (title, desciption, destination, imgUrl, checkInDate, checkOutDate, price, numberOfFollowers) VALUES (?,?,?,?,?,?,?,?);`);
 
 }
 
-const getVacationQuery = (): string => {
+export const readVacationQuery = (): string => {
     return  (`SELECT * FROM vacations`);
     
     }
 
+export const updateVacationQuery = () => {
+    
+    //TODO
+} 
 
-export {addVacationQuery, getVacationQuery}
+
+export const deleteVacationQuery = () => {
+    //TODO
+} 
+

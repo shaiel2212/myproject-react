@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { BrowserRouter as Router, Route, Link, Routes } from 'react-router-dom';
 import HomePage from './components/HomePage';
 import { LoginPage } from './components/auth/loginPage';
@@ -23,6 +23,9 @@ interface IRoute {
 
 let isLogin = false
 
+
+ 
+
 const routes = [
   { path: "/login", linkText: "Login", element: <LoginPage />, invisible: false },
   { path: "/vacations", linkText: "Home", element: <VacationCard />, invisible: false },
@@ -34,15 +37,33 @@ const routes = [
 
 function App() {
 
+  const [routesMap, setRoutesMap] = useState(routes);
 
   const userName = useSelector((state: any) => state.authReducer.userName)
-
-
+  const token = useSelector((state: any) => state.authReducer?.token)
 
 
   useEffect(() => {
-     getVacationACTION()
+    console.log("use efeect on token", token)
+    if (token) {
+      const newRoutesMap = routesMap.map(route => {
+        if (route.path === "/login") {
+          return { ...route, invisible: true }
+        }
+        return route
+      });
+
+      setRoutesMap(newRoutesMap)
+    }
+
+
+  }, [token])
+
+  useEffect(() => {
+    getVacationACTION()
   }, [])
+
+
 
   return (
     <Router>
@@ -51,7 +72,7 @@ function App() {
 
           <Navbar.Brand style={{ margin: "10px", fontSize: "24px" }} as={Link} to="/">Vacation App</Navbar.Brand>
         </Container>
-        {routes.filter((route: IRoute) => !route.invisible).map((route: IRoute) => (
+        {routesMap.filter((route: IRoute) => !route.invisible).map((route: IRoute) => (
           <span key={route.linkText} style={{ margin: "5px" }}>
             <Nav.Link as={Link} key={route.linkText} style={{ textDecoration: "none", color: "white", whiteSpace: "nowrap" }} to={route.path}>{route.linkText}</Nav.Link>
           </span>

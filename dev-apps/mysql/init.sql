@@ -3,18 +3,18 @@ CREATE SCHEMA `vacation-app`;
 CREATE TABLE `vacation-app`.`vacations` (
   `vacation_id` INT NOT NULL AUTO_INCREMENT,
   `title` VARCHAR(255) NOT NULL,
-  `desc` VARCHAR(255) NOT NULL,
+  `description` VARCHAR(255) NOT NULL,
   `destination` VARCHAR(255) NOT NULL,
   `imgUrl` VARCHAR(255) NOT NULL,
-  `checkInDate` DATETIME NOT NULL,
-  `checkOutDate` DATETIME NOT NULL,
+  `checkInDate` VARCHAR(255) NOT NULL,
+  `checkOutDate` VARCHAR(255) NOT NULL,
   `price` INT NOT NULL,
   `numberOfFollowers` INT NOT NULL  default 0,
   PRIMARY KEY (`vacation_id`));
 
-INSERT INTO `vacation-app`.`vacations` (`title`, `desc`, `destination`, `imgUrl`, `checkInDate`, `checkOutDate`, `price`, `numberOfFollowers`) VALUES ('some title1', 'some desc', 'some dest', 'some ImgUrl', '2022-07-16', '2022-07-20', '1250', '0');
-INSERT INTO `vacation-app`.`vacations` (`title`, `desc`, `destination`, `imgUrl`, `checkInDate`, `checkOutDate`, `price`, `numberOfFollowers`) VALUES ('some title2', 'some desc', 'some dest', 'some ImgUrl', '2022-07-22', '2022-07-23', '1420', '0');
-INSERT INTO `vacation-app`.`vacations` (`title`, `desc`, `destination`, `imgUrl`, `checkInDate`, `checkOutDate`, `price`, `numberOfFollowers`) VALUES ('some title3', 'some desc', 'some dest', 'some ImgUrl', '2022-07-22', '2022-07-23', '1300', '0');
+INSERT INTO `vacation-app`.`vacations` (`title`, `description`, `destination`, `imgUrl`, `checkInDate`, `checkOutDate`, `price`, `numberOfFollowers`) VALUES ('some title1', 'some desc', 'some dest', 'some ImgUrl', '2022-07-16', '2022-07-20', '1250', '0');
+INSERT INTO `vacation-app`.`vacations` (`title`, `description`, `destination`, `imgUrl`, `checkInDate`, `checkOutDate`, `price`, `numberOfFollowers`) VALUES ('some title2', 'some desc', 'some dest', 'some ImgUrl', '2022-07-22', '2022-07-23', '1420', '0');
+INSERT INTO `vacation-app`.`vacations` (`title`, `description`, `destination`, `imgUrl`, `checkInDate`, `checkOutDate`, `price`, `numberOfFollowers`) VALUES ('some title3', 'some desc', 'some dest', 'some ImgUrl', '2022-07-22', '2022-07-23', '1300', '0');
 
 CREATE TABLE `vacation-app`.`users` (
   `id` INT NOT NULL AUTO_INCREMENT,

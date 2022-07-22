@@ -2,7 +2,7 @@ import { AUTHACTIONS } from "../actions"
 import {getTokenLS, setTokenLS} from "./helpers/auth"
 
 const initialState = {
-    token: getTokenLS(),
+    token: undefined,
     isLoading: false,
     userName: ""
 }
@@ -13,9 +13,9 @@ export const authReducer = (state: any = initialState, action: { type: string, p
             return { ...state, isLoading: action?.payload }
         }
         case AUTHACTIONS.LOGIN_SUCCESS: {
-            console.log(action?.payload?.data.token)
+            console.log("######################################################",action?.payload?.data.token)
             setTokenLS(action?.payload?.data.token)
-            return { ...state, token: action?.payload?.token, userName: action?.payload?.data.userName }
+            return { ...state, token: action?.payload?.data.token, userName: action?.payload?.data.userName }
         }
         case AUTHACTIONS.LOGIN_INVISIBLE: {
             console.log(action?.payload)
