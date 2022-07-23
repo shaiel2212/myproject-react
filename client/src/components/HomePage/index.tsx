@@ -1,6 +1,6 @@
 import React from 'react'
 import { useSelector } from 'react-redux'
-import Vacation from '../vacation/vaction'
+import Vacation from '../Vacation/vaction'
 
 function HomePage() {
 

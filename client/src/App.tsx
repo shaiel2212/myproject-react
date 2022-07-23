@@ -9,7 +9,7 @@ import { Container, Nav, Navbar, NavDropdown } from 'react-bootstrap';
 import AddVacation from './components/addVacation';
 import { getVacationACTION } from './store/asyncFunctions/vacations';
 import AppModal from './components/modal';
-import VacationCard from './components/vacation/vaction';
+import VacationCard from './components/Vacation/vaction';
 import { isGeneratorFunction } from 'util/types';
 import path from 'path';
 
