@@ -71,7 +71,7 @@ function addVacationSuccess(payload: any) {
 }
 
 
-function deleteVacationSuccess(payload: any) {
+function deleteVacationSuccess(payload: boolean) {
  
     return { type: DELETE_VACATION.DELETE_VACATION_IS_SUCCESS, payload }
 }

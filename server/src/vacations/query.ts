@@ -15,7 +15,7 @@ export const updateVacationQuery = () : string => {
 }
 
 
-export const deleteVacationQuery = () => {
+export const deleteVacationQuery = ():string => {
     return (`DELETE FROM vacations WHERE vacation_id = ?`);
 }
 

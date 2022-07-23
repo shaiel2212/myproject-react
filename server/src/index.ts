@@ -1,30 +1,29 @@
-import dotenv from "dotenv"
-import express from "express"
-import bodyParser from "body-parser"
-import cors from "cors"
-import { initDB } from "../db"
-import loginRouter from "./auth/index"
-import registerRouter from "./auth/index"
-import vacationRouter from "./vacations/index"
+import dotenv from "dotenv";
+import express from "express";
+import bodyParser from "body-parser";
+import cors from "cors";
+import { initDB } from "../db";
+import loginRouter from "./auth/index";
+import registerRouter from "./auth/index";
+import vacationV1 from "./routes/index";
 
-initDB()
+initDB();
 
-const port = process.env.PORT
-console.log(port)
+const port = process.env.PORT;
+console.log(port);
 
-const app = express()
-app.use(cors())
-app.use(bodyParser.json())
-
+const app = express();
+app.use(cors());
+app.use(bodyParser.json());
 
 app.get("/healthcheck", async (req, res) => {
   return res.send("Api is working!");
 });
 
-app.use(loginRouter)
-app.use(registerRouter)
-app.use(vacationRouter)
+app.use(loginRouter);
+app.use(registerRouter);
+app.use(vacationV1);
 
 app.listen(port || 5000, () => {
-  console.log(`Server Running on Port ${port}`)
-})
+  console.log(`Server Running on Port ${port}`);
+});

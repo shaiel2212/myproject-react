@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Button, Form } from "react-bootstrap";
 import { useSelector } from "react-redux";
 import { convertToObject } from "typescript";
-import { AddVacationACTION } from "../../store/asyncFunctions/vacations";
+import { AddVacationACTION } from "../../../store/asyncFunctions/vacations";
 
 function AddVacation() {
   const [description, setDescription] = useState("");
@@ -26,6 +26,7 @@ function AddVacation() {
      price:parseInt(price),
     });
   }
+  
 
   return (
     <div className="container" style={{ textAlign: "center" }}>

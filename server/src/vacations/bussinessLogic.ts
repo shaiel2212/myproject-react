@@ -6,17 +6,7 @@ import {
   updateVacationQuery,
 } from "./query";
 
-interface IVacation {
-  id?: number;
-  title: string;
-  description: string;
-  destination: string;
-  imgUrl: string;
-  checkInDate: string;
-  checkOutDate: string;
-  price: string;
-  numberOfFollowers: undefined;
-}
+
 
 export async function addVacation({ title, description, destination, imgUrl, checkInDate, checkOutDate, price }: IVacation) {
   //const query = createVacationQuery()

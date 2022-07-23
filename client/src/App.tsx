@@ -6,7 +6,7 @@ import { RegisterPage } from './components/auth/registerPage';
 import { useSelector } from 'react-redux';
 import { store } from './store';
 import { Container, Nav, Navbar, NavDropdown } from 'react-bootstrap';
-import AddVacation from './components/addVacation';
+import AddVacation from './components/Admin/Vacation/CreateVacation';
 import { getVacationACTION } from './store/asyncFunctions/vacations';
 import AppModal from './components/modal';
 import VacationCard from './components/Vacation/vaction';

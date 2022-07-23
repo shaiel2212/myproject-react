@@ -1,20 +1,12 @@
-import express from "express";
 import {
   addVacation,
   getVacations,
   deleteVacations,
   updateVacation,
 } from "./bussinessLogic";
-const router = express.Router();
 
-router.post("/vacations", addVacationHandler);
-router.get("/vacations", getVacationsHandler);
-router.delete("/vacations/:id", deleteVacationHandler);
-router.put("/vacations/:id", updateVacationHandler);
-
-async function addVacationHandler(req: any, res: any, next: any) {
+export async function addVacationHandler(req: any, res: any, next: any) {
   try {
-    console.log(req.body);
     const isSuccessCreatedVacations = await addVacation(req.body);
     if (!isSuccessCreatedVacations)
       res.status(400).send({ status: "failed to add Vacation" });
@@ -24,22 +16,37 @@ async function addVacationHandler(req: any, res: any, next: any) {
   }
 }
 
-async function getVacationsHandler(req: any, res: any, next: any) {
-  const vacations = await getVacations();
+export async function getVacationsHandler(req: any, res: any, next: any) {
+  try {
+    const vacations = await getVacations();
 
-  return res.status(200).json(vacations);
+    return res.status(200).json(vacations);
+  } catch (error) {
+    return res.status(200).send([]);
+  }
 }
 
-async function deleteVacationHandler(req: any, res: any, next: any) {
-  console.log(req.params); // { id : 5 }
-  const result = await deleteVacations(req.params.id);
-  return res.status(200).send({ success: true });
+export async function deleteVacationHandler(req: any, res: any, next: any) {
+  try {
+    const { id } = req.params;
+
+    await deleteVacations(id);
+    return res.status(200).send({ success: true, id });
+  } catch (error) {
+    return res
+      .status(200)
+      .send({ success: false, message: "Failed to delete" });
+  }
 }
 
-async function updateVacationHandler(req: any, res: any, next: any) {
-  console.log(req.params); // { id : 5 }
-  const result = await updateVacation(req.params.id);
-  return res.status(200).send({ success: true });
+export async function updateVacationHandler(req: any, res: any, next: any) {
+  try {
+    const { id } = req.params;
+    await updateVacation(id);
+    return res.status(200).send({ success: true });
+  } catch (error) {
+    return res
+      .status(200)
+      .send({ success: false, message: "Failed to Update" });
+  }
 }
-
-export default router;

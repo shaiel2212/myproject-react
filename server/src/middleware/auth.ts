@@ -1,8 +1,8 @@
 import jwt from "jsonwebtoken";
-import dotenv from "dotenv"
+import dotenv from "dotenv";
 
-dotenv.config({ path: "../../.env" })
-const SECRET: any = process.env.SECRET
+dotenv.config({ path: "../../.env" });
+const SECRET: any = process.env.SECRET;
 
 export default function verifyToken(req: any, res: any, next: any) {
   const authorization = req?.headers?.authorization;
@@ -11,9 +11,9 @@ export default function verifyToken(req: any, res: any, next: any) {
       return next({ ...err, status: 401 });
     } else {
       req.userData = decoded?.data;
-      console.log("#################### req.user ######################");
+
       console.log(req.userData);
-      console.log("#################### req.user ######################");
+
       return next();
     }
   });
