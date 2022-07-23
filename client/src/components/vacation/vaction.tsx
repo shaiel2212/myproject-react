@@ -29,7 +29,7 @@ function VacationCard() {
     const dispatch = useDispatch()
 
     const handleOpenVacationModal = (id: number) => {
-        console.log("this is id", id)
+
         dispatch(setModalData({ message: "deleteVacation", header: "Modal Header", data: { id } }))
 
 

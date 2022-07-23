@@ -1,9 +1,11 @@
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Navigate, useNavigate } from "react-router-dom";
+import { IUserLogin } from "../../../interface/User.interface";
 import { AUTHACTIONS } from "../../../store/actions";
 import { loginACTION } from "../../../store/asyncFunctions/auth";
 import { WithLoading } from "../../ui-components/loadingComponent";
+
 
 export function LoginPage() {
     const [userName, setUserName] = useState("");
@@ -16,10 +18,10 @@ export function LoginPage() {
     const token = useSelector((state: any) => state.authReducer.token);
 
     async function login() {
-        const result = await loginACTION({ userName, password });
-        console.log("result login", result)
-        if (result?.data.token) {
-            console.log("result?.data.token", result?.data.token)
+        const result:any = await loginACTION({ userName, password });
+        console.log({result} , "login success");
+        if (result) {
+            if(result?.token)
             reduxDispatch(loginSuccessRedirect(true))
             navigate("/vacations")
             
@@ -27,7 +29,7 @@ export function LoginPage() {
     }
 
     function loginSuccessRedirect(payload: boolean) {
-        console.log(payload)
+      
         return { type: AUTHACTIONS.LOGIN_INVISIBLE, payload }
     }
 

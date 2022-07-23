@@ -11,7 +11,7 @@ function HomePage() {
       <h1>Welcome To Teams Management APP</h1>
 
       {/* {vacations.map((vac: any) => {
-        console.log(vac.title)
+   
       })} */}
 
       {/* {Array.isArray(vacations) &&

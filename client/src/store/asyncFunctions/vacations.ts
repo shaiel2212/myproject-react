@@ -1,34 +1,28 @@
 import { store } from "../index"
 import { MODAL, GET_VACATIONS, ADD_VACATION, DELETE_VACATION } from "../actions"
-import { addVacationToDB, getVacationsFromDB } from "../services/vacationServices"
+import { addVacationToDB, getVacationsFromDB } from "../services/vacation.services"
+import { IVacation } from "../../interface/Vacation.interface"
+
 
 function getDispatch() {
     return store.dispatch
 }
 
 
-export interface IaddVacation {
-    title: string,
-    description: string,
-    destination: string,
-    imgUrl: string,
-    checkInDate: string,
-    checkOutDate: string,
-    price: string,
-    numberOfFollowers: string
-}
 
-export async function AddVacationACTION(vacation: IaddVacation) {
-    console.log("vacation from AddVacationACTION",{vacation})
+
+export async function AddVacationACTION(vacation: IVacation) {
+   
     const dispatch = getDispatch()
     dispatch(addVacationIsLoading(true))
     try {
+        console.log({vacation})
         const result = await addVacationToDB(vacation)
-        console.log("vacation from addVacationToDB",{result})
+        console.log({result})
         dispatch(addVacationSuccess(result.data))
         return result.data
     } catch (err) {
-        console.log(err)
+       
     } finally {
         dispatch(addVacationIsLoading(false))
     }
@@ -39,12 +33,12 @@ export async function getVacationACTION() {
     dispatch(getVacationsIsLoading(true))
     try {
         const results = await getVacationsFromDB()
-        console.log("getVacationACTION", results.data)
+       
         // _openSuccessModal(results.data)
         dispatch(getVacationSuccess(results.data))
         return results.data
     } catch (err) {
-        console.log(err)
+    
     } finally {
         dispatch(getVacationsIsLoading(false))
     }
@@ -72,17 +66,17 @@ function addVacationIsLoading(payload: boolean) {
 }
 
 function addVacationSuccess(payload: any) {
-    console.log(payload)
+ 
     return { type: ADD_VACATION.ADD_VACATION_SUCCESS, payload }
 }
 
 
 function deleteVacationSuccess(payload: any) {
-    console.log(payload)
+ 
     return { type: DELETE_VACATION.DELETE_VACATION_IS_SUCCESS, payload }
 }
 
 function deleteVacationIsLoading(payload: any) {
-    console.log(payload)
+
     return { type: DELETE_VACATION.DELETE_VACATION_IS_LOADING, payload }
 }

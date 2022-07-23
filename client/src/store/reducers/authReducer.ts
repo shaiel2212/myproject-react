@@ -13,8 +13,7 @@ export const authReducer = (state: any = initialState, action: { type: string, p
             return { ...state, isLoading: action?.payload }
         }
         case AUTHACTIONS.LOGIN_SUCCESS: {
-            console.log("######################################################",action?.payload?.data.token)
-            console.log("######################################################",action?.payload?.data.userName)
+            
             setTokenLS(action?.payload?.data.token)
             return { ...state, token: action?.payload?.data.token, userName: action?.payload?.data.userName }
         }

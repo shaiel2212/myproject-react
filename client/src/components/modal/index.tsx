@@ -30,7 +30,7 @@ const DeleteVacationModal = () => {
             await axios.delete(`http://localhost:3500/vacations/${id}`);
             closeModal()
         } catch (error) {
-            console.log("Somthing went wrong you need to handle this case");
+            
 
         }
     }

@@ -15,9 +15,9 @@ export function RegisterPage() {
     let navigate = useNavigate()
 
     async function register() {
-        console.log(userName, password, firstName, lastName)
+        
         const result = await registerACTION({ userName, firstName, lastName, password })
-        console.log(result)
+   
         if (result === "Success") {
             navigate("/login")
         }

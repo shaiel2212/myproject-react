@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { store } from "..";
 import { AUTHACTIONS, MODAL } from "../actions";
-import { Iregister, login, register } from "../services/authServices";
+import { Iregister, login, register } from "../services/auth.services";
 
 function getDispatch() {
     return store.dispatch
@@ -12,11 +12,11 @@ export async function loginACTION(payload: any) {
     dispatch(loginIsLoading(true))
     try {
         const data = await login(payload)
-        console.log(data)
+
         dispatch(loginSuccess(data))
         return data
     } catch (err) {
-        console.log(err)
+   return []
     } finally {
         dispatch(loginIsLoading(false))
     }
@@ -27,7 +27,7 @@ export async function registerACTION(payload: any) {
     dispatch(registerIsLoading(true))
     try {
         const data: any = await register(payload)
-        console.log("registerACTION", data)
+     
         if (data.message === "Success") {
             dispatch(registerSuccess(true))
         }
@@ -44,7 +44,7 @@ function registerIsLoading(payload: boolean) {
 }
 
 function registerSuccess(payload: boolean) {
-    console.log(payload)
+
     return { type: AUTHACTIONS.REGISTER.REGISTER_SUCCESS, payload }
 }
 
@@ -53,7 +53,7 @@ function loginIsLoading(payload: boolean) {
 }
 
 function loginSuccess(payload: any) {
-    console.log(payload)
+   
     return { type: AUTHACTIONS.LOGIN_SUCCESS, payload }
 }
 

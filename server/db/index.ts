@@ -30,8 +30,8 @@ async function initDB() {
   }
 }
 
-function getConnection() {
-  return connection;
+ function getConnection() {
+  return  connection;
 }
 
 export { initDB, getConnection };
