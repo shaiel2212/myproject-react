@@ -11,19 +11,20 @@ export interface IaddVacation {
     title: string,
     description: string,
     destination: string,
-    img: string,
+    imgUrl: string,
     checkInDate: string,
     checkOutDate: string,
     price: string,
     numberOfFollowers: string
 }
 
-export async function AddVacationACTION(vacation: any) {
+export async function AddVacationACTION(vacation: IaddVacation) {
+    console.log("vacation from AddVacationACTION",{vacation})
     const dispatch = getDispatch()
     dispatch(addVacationIsLoading(true))
     try {
         const result = await addVacationToDB(vacation)
-        console.log(result)
+        console.log("vacation from addVacationToDB",{result})
         dispatch(addVacationSuccess(result.data))
         return result.data
     } catch (err) {

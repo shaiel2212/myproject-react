@@ -1,6 +1,5 @@
-
-import axios, { AxiosError } from "axios"
-import axiosInstance from "./index.axiox"
+import axios from "axios"
+// import { useCloseModalHook } from "../../components/modal"
 
 const BASEURL = "http://localhost:3500"
 
@@ -9,27 +8,33 @@ export interface IaddVacations {
     title: string,
     description: string,
     destination: string,
-    img: string,
+    imgUrl: string,
     checkInDate: string,
     checkOutDate: string,
-    price: string,
+    price: number,
     numberOfFollowers: number
 }
 
 
 
 export async function addVacationToDB(vacation: IaddVacations): Promise<any> {
-    const data = await axiosInstance.post(`${BASEURL}/add-vacation`, vacation)
+    const data = await axios.post(`${BASEURL}/vacations`, {vacation})
+    console.log("data and vacation", data, vacation)
     return data
 }
 
 export async function getVacationsFromDB() {
-    const  data  = await axiosInstance.get(`${BASEURL}/vacations`)
+    const data = await axios.get(`${BASEURL}/vacations`)
     console.log("getVacationsFromDB", data)
     return data
 }
 
-export async function deleteVacation(payload: string): Promise<any> {
-    const { data } = await axiosInstance.delete(`/orders?id=${payload}`)
-    return data
+export async function deleteVacation(id: string) {
+
+    try {
+        await axios.delete(`${BASEURL}/vacations/${id}`);
+    } catch (error) {
+        console.log("Somthing went wrong you need to handle this case");
+
+    }
 }

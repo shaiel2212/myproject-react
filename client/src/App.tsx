@@ -9,8 +9,9 @@ import { Container, Nav, Navbar, NavDropdown } from 'react-bootstrap';
 import AddVacation from './components/addVacation';
 import { getVacationACTION } from './store/asyncFunctions/vacations';
 import AppModal from './components/modal';
-import { NotFound } from './components/NotFound';
 import VacationCard from './components/vacation/vaction';
+import { isGeneratorFunction } from 'util/types';
+import path from 'path';
 
 
 
@@ -24,24 +25,46 @@ interface IRoute {
 let isLogin = false
 
 
- 
 
-const routes = [
-  { path: "/login", linkText: "Login", element: <LoginPage />, invisible: false },
-  { path: "/vacations", linkText: "Home", element: <VacationCard />, invisible: false },
-  { path: "/register", linkText: "Register", element: <RegisterPage />, invisible: false },
-  { path: "/add-vacation", linkText: "Add Vacation", element: <AddVacation />, invisible: false },
-  { path: "*", element: <NotFound />, linkText: "", invisible: true },
 
-]
 
 function App() {
 
+  const routes = [
+    { path: "/login", linkText: "Login", element: <LoginPage />, invisible: false },
+    { path: "/vacations", linkText: "Home", element: <VacationCard />, invisible: false },
+    { path: "/register", linkText: "Register", element: <RegisterPage />, invisible: false },
+    { path: "/vacation", linkText: "Add Vacation", element: <AddVacation />, invisible: false },
+
+  ]
   const [routesMap, setRoutesMap] = useState(routes);
+
 
   const userName = useSelector((state: any) => state.authReducer.userName)
   const token = useSelector((state: any) => state.authReducer?.token)
 
+
+  // useEffect(() => {
+  //   if (token) {
+  //     console.log("use efeect on token", userName)
+  //     if (userName === "shaiel12") {
+  //       routesMap.map(i => {
+
+  //         console.log("######################################## courrnt i.invisible", i.invisible)
+  //         if (i.invisible = true) {
+  //           let iInvisble = i.invisible
+  //           return { ...i, iInvisble : false }
+
+  //           console.log("######################################## newnewinvisible ", iInvisble)
+  //           return iInvisble
+  //         }
+  //       })
+  //     }
+  //   }
+
+
+
+  // }, [userName])
 
   useEffect(() => {
     console.log("use efeect on token", token)

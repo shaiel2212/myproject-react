@@ -1,7 +1,8 @@
 import { getConnection } from "../../db";
-import { createVacationQuery, readVacationQuery } from "./query";
+import { createVacationQuery, deleteVacationQuery, readVacationQuery, updateVacationQuery } from "./query";
 
-interface IaddVacation {
+interface IVacation {
+    id?: number,
     title: string,
     description: string,
     destination: string,
@@ -12,15 +13,15 @@ interface IaddVacation {
     numberOfFollowers: undefined
 }
 
-export async function addVacation(vacation: IaddVacation) {
-    const { title, description ,destination, imgUrl, checkInDate, checkOutDate, price } = vacation
+export async function addVacation(vacation: IVacation) {
+    const { title, description, destination, imgUrl, checkInDate, checkOutDate, price } = vacation
     //const query = createVacationQuery()
     const numberOfFollowers = 0;
     console.log("addVacation", vacation)
     try {
-        const query = (`INSERT INTO vacations (title, description, destination, imgUrl, checkInDate, checkOutDate, price, numberOfFollowers) VALUES (?,?,?,?,?,?,?,?);`);
-        const row = await getConnection().execute(query, [title, description, destination, imgUrl, checkInDate, checkOutDate,price , numberOfFollowers]);
-        return row 
+        const query = createVacationQuery()
+        const row = await getConnection().execute(query, [title, description, destination, imgUrl, checkInDate, checkOutDate, price, numberOfFollowers]);
+        return row
     } catch (ex) {
         console.log(ex)
         return null
@@ -35,5 +36,29 @@ export async function getVacations() {
         return results
     } catch (ex) {
         console.log(ex)
+    }
+}
+
+export async function deleteVacations(id: string) {
+    const query = deleteVacationQuery();
+    try {
+        await getConnection().execute(query, [Number(id)])
+        return true;
+    } catch (error) {
+        console.log("Error", error);
+        return false
+    }
+}
+
+
+export async function updateVacation(vacation: IVacation) {
+    const { id, title, description, destination, imgUrl, checkInDate, checkOutDate, price } = vacation
+    try {
+        const query = updateVacationQuery();
+        await getConnection().execute(query, [title, description, destination, imgUrl, checkInDate, checkOutDate, price])
+        return true;
+    } catch (error) {
+        console.log("Error", error);
+        return false
     }
 }

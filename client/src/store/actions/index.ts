@@ -39,7 +39,8 @@ export const MODAL = {
 
 interface setModalDataProps {
     message : string,
-    header: string
+    header: string,
+    data : any
 }
 export const setModalData = (payload : setModalDataProps)=> {
     return {

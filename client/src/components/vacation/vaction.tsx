@@ -11,7 +11,7 @@ import { setModalData } from '../../store/actions';
 
 export interface Ivacation {
     vacation_id: number,
-    desc: string,
+    description: string,
     title: string,
     destination: string,
     img: string,
@@ -26,17 +26,19 @@ function VacationCard() {
 
     const vacations = useSelector((state: any) => state.vacationsReducer?.vacations) as Ivacation[];
     const token = useSelector((state: any) => state.authReducer?.token)
-
     const dispatch = useDispatch()
 
     const handleOpenVacationModal = (id: number) => {
         console.log("this is id", id)
-        dispatch(setModalData({message: "deleteVacation" , header: "Modal Header"}))
+        dispatch(setModalData({ message: "deleteVacation", header: "Modal Header", data: { id } }))
+
+
     }
     return (
         <div className='container'>
             <h1> vacations page </h1>
             {vacations?.map((vac: Ivacation) => {
+                if (!token) return
                 return (
 
                     <div>
@@ -45,7 +47,7 @@ function VacationCard() {
                             <Card.Body>
                                 <Card.Title>Title : {vac.title}</Card.Title>
                                 <Card.Text>
-                                    Description : {vac.desc}
+                                    Description : {vac.description}
                                 </Card.Text>
                                 <Card.Text>
                                     Destionsion : {vac.destination}

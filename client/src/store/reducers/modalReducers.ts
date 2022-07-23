@@ -3,12 +3,14 @@ import { MODAL } from "../actions"
 interface IInitialState {
     message: string,
     isOpen: boolean,
-    header: string
+    header: string,
+    data: any
 }
 const initialState: IInitialState = {
     message: "",
     header: "",
-    isOpen: false
+    isOpen: false,
+    data : {}
 }
 
 export const modalReducer = (state: any = initialState, action: { type: string, payload?: any }) => {
@@ -17,7 +19,8 @@ export const modalReducer = (state: any = initialState, action: { type: string, 
             return { ...state, ...action.payload }
         }
         case MODAL.SET_MODAL_DATA: {
-            return  {message: action.payload.message , header: action.payload.header , isOpen : true}
+            const {message, header, data } = action.payload
+            return  {message , header , data ,  isOpen : true}
         }
         default:
             return state

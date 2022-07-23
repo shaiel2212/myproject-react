@@ -1,10 +1,10 @@
 import React, { useState } from 'react'
 import { Button, Form } from "react-bootstrap"
+import { useSelector } from 'react-redux'
 import { convertToObject } from 'typescript'
 import { AddVacationACTION } from '../../store/asyncFunctions/vacations'
 
 function AddVacation() {
-
     const [description, setDescription] = useState("")
     const [destination, setDestination] = useState("")
     const [img, setImg] = useState("")
@@ -13,13 +13,16 @@ function AddVacation() {
     const [price, setPrice] = useState("")
     const [title, setTitle] = useState("")
 
+    const userName = useSelector((state: any) => state.authReducer?.userName)
+
+    console.log(userName,"################################################################")
+
     function addVacation() {
-        console.log(description, destination, img, checkIn, checkOut, price, title)
         AddVacationACTION({ title, description, destination, img, checkIn, checkOut, price })
     }
 
     return (
-        <div className="container" style={{ textAlign: "center" ,  }}>
+        <div className="container" style={{ textAlign: "center", }}>
             <h1>Add Vacation</h1>
             <Form onSubmit={(e) => {
                 e.preventDefault()
