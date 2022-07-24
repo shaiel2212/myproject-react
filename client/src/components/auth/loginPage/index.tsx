@@ -6,8 +6,9 @@ import { WithLoading } from "../../UI/loadingComponent";
 import { loginRequest } from "../../../store/redusers/AuthSlice";
 
 export function LoginPage() {
+  // #13
   const dispatch = useAppDispatch();
-  const {isLoading} = useAppSelector(state=>state?.authSlice)
+  const { isLoading } = useAppSelector((state) => state?.authSlice);
   const [userName, setUserName] = useState("");
   const [password, setPassword] = useState("");
   const [showBtn, setShowBtn] = useState(false);
@@ -15,8 +16,11 @@ export function LoginPage() {
   let navigate = useNavigate();
 
   async function login() {
+    // #14
     await dispatch(
+      // #15
       loginRequest({
+        // #16
         userName: "Shaiel12",
         password: "123",
       })
