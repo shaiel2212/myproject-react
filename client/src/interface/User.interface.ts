@@ -5,3 +5,9 @@
         token: string;
         isAdmin: number;
     }
+
+    export interface ILoginPayload {
+        userName: string;
+        password: string;
+    }
+    

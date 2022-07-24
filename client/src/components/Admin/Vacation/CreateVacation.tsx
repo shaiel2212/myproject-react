@@ -2,7 +2,6 @@ import React, { useState } from "react";
 
 import { useSelector } from "react-redux";
 
-import { AddVacationACTION } from "../../../store/asyncFunctions/vacations";
 import CustomInput from "../../UI/CustomInput";
 import { IVacation } from "./../../../interface/Vacation.interface";
 import "./createVacation.css";
@@ -52,7 +51,7 @@ function AddVacation() {
   function addVacation(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     console.log({ vacationValues });
-    if (vacationValues) AddVacationACTION({ ...vacationValues });
+   
   }
 
   return (
