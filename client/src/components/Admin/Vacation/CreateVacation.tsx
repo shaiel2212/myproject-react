@@ -1,108 +1,151 @@
 import React, { useState } from "react";
-import { Button, Form } from "react-bootstrap";
+
 import { useSelector } from "react-redux";
-import { convertToObject } from "typescript";
+
 import { AddVacationACTION } from "../../../store/asyncFunctions/vacations";
-
+import CustomInput from "../../UI/CustomInput";
+import { IVacation } from "./../../../interface/Vacation.interface";
+import "./createVacation.css";
 function AddVacation() {
-  const [description, setDescription] = useState("");
-  const [destination, setDestination] = useState("");
-  const [imgUrl, setImgUrl] = useState("");
-  const [checkInDate, setCheckInDate] = useState("");
-  const [checkOutDate, setCheckOutDate] = useState("");
-  const [price, setPrice] = useState("");
-  const [title, setTitle] = useState("");
-
   const userName = useSelector((state: any) => state.authReducer?.userName);
+  const [vacationValues, setVacationValues] = useState<IVacation>({
+    checkInDate: "",
+    checkOutDate: "",
+    description: "",
+    destination: "",
+    imgUrl: "",
+    price: 0,
+    title: "",
+  });
 
-  function addVacation() {
-    AddVacationACTION({
-      checkInDate,
-      checkOutDate,
-      title,
-      description,
-      destination,
-      imgUrl,
-     price:parseInt(price),
-    });
-  }
+  const handleVacationForm = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ): void => {
+    const { name, value } = e.target;
+
+   
+    switch (name) { 
+      case "title":
+        return setVacationValues({ ...vacationValues, title: value });
+      case "destination":
+        return setVacationValues({ ...vacationValues, destination: value });
+      case "description":
+        return setVacationValues({ ...vacationValues, description: value });
+      case "imgUrl":
+        return setVacationValues({ ...vacationValues, imgUrl: value });
+      case "checkInDate":
+        return setVacationValues({ ...vacationValues, checkInDate: value });
+      case "checkOutDate":
+        return setVacationValues({ ...vacationValues, checkOutDate: value });
+      case "price":
+        return setVacationValues({
+          ...vacationValues,
+          price: parseInt(value),
+        });
+
+      default:
+    }
+  };
+
   
 
+  function addVacation(event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    console.log({ vacationValues });
+    if (vacationValues) AddVacationACTION({ ...vacationValues });
+  }
+
   return (
-    <div className="container" style={{ textAlign: "center" }}>
+    <div>
       <h1>Add Vacation</h1>
-      <Form
-        onSubmit={(e) => {
-          e.preventDefault();
-          addVacation();
-        }}
-      >
-        <Form.Group className="mb-3" controlId="formBasicEmail">
-          <Form.Label>Vacation Title:</Form.Label>
-          <Form.Control
-            type="text"
-            required
-            placeholder="Enter vacation title"
-            onChange={(e) => setTitle(e.target.value)}
-          />
-        </Form.Group>
-        <Form.Group className="mb-3" controlId="formBasicEmail">
-          <Form.Label>Destination:</Form.Label>
-          <Form.Control
-            type="text"
-            required
-            placeholder="Enter vacation destination"
-            onChange={(e) => setDestination(e.target.value)}
-          />
-        </Form.Group>
-        <Form.Group className="mb-3" controlId="formBasicEmail">
-          <Form.Label>Description:</Form.Label>
-          <Form.Control
-            type="text"
-            required
-            placeholder="Enter vacation description"
-            onChange={(e) => setDescription(e.target.value)}
-          />
-        </Form.Group>
-        <Form.Group className="mb-3" controlId="formBasicEmail">
-          <Form.Label>Vacation Image:</Form.Label>
-          <Form.Control
-            type="text"
-            required
-            placeholder="Enter img link"
-            onChange={(e) => setImgUrl(e.target.value)}
-          />
-        </Form.Group>
-        <Form.Group className="mb-3" controlId="formBasicEmail">
-          <Form.Label>Check In:</Form.Label>
-          <Form.Control
-            type="date"
-            required
-            placeholder="Enter img link"
-            onChange={(e) => setCheckInDate(e.target.value)}
-          />
-        </Form.Group>
-        <Form.Group className="mb-3" controlId="formBasicEmail">
-          <Form.Label>Check Out:</Form.Label>
-          <Form.Control
-            type="date"
-            required
-            placeholder="Enter img link"
-            onChange={(e) => setCheckOutDate(e.target.value)}
-          />
-        </Form.Group>
-        <Form.Group className="mb-3" controlId="formBasicEmail">
-          <Form.Label>Price:</Form.Label>
-          <Form.Control
-            type="number"
-            required
-            onChange={(e) => setPrice(e.target.value)}
-          />
-        </Form.Group>
-        <Button variant="primary" type="submit">
-          Add
-        </Button>
-      </Form>
+      <form onSubmit={(e) => addVacation(e)}>
+        <div className="form-container">
+          {/* Title */}
+          <div className="input--row">
+            <span className="input--col">
+              <CustomInput
+                label="Title"
+                name="title"
+                onChange={handleVacationForm}
+                placeholder="Title"
+                type="text"
+              />
+            </span>
+
+            {/* imgUrl */}
+
+            <span className="input--col">
+              <CustomInput
+                label="imgUrl"
+                name="imgUrl"
+                onChange={handleVacationForm}
+                placeholder="imgUrl"
+                type="text"
+              />
+            </span>
+          </div>
+          {/* description */}
+          <div className="input--row">
+            <span className="input--col">
+              <CustomInput
+                label="description"
+                name="description"
+                onChange={handleVacationForm}
+                placeholder="description"
+                type="text"
+              />
+            </span>
+
+            <span className="input--col">
+              <CustomInput
+                label="destination"
+                name="destination"
+                onChange={handleVacationForm}
+                placeholder="destination"
+                type="text"
+              />
+            </span>
+          </div>
+          {/* checkInDate */}
+
+          <div className="input--row">
+            <span className="input--col">
+              <CustomInput
+                label="checkInDate"
+                name="checkInDate"
+                onChange={handleVacationForm}
+                placeholder="checkInDate"
+                type="date"
+              />
+            </span>
+            {/* checkOutDate */}
+            <span className="input--col">
+              <CustomInput
+                label="checkOutDate"
+                name="checkOutDate"
+                onChange={handleVacationForm}
+                placeholder="checkOutDate"
+                type="date"
+              />
+            </span>
+            {/* price */}
+          </div>
+          <div className="input--row ">
+            <span className="input--col ">
+              <CustomInput
+                label="price"
+                name="price"
+                onChange={handleVacationForm}
+                placeholder="price"
+                type="number"
+              />
+            </span>
+            <button className="btn--submit--create--vacation" type="submit">
+                Send
+              </button>
+          </div>
+        </div>
+      </form>
     </div>
   );
 }

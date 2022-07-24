@@ -22,7 +22,7 @@ export async function AddVacationACTION(vacation: IVacation) {
         dispatch(addVacationSuccess(result.data))
         return result.data
     } catch (err) {
-       
+        dispatch(addVacationIsLoading(false))
     } finally {
         dispatch(addVacationIsLoading(false))
     }
@@ -38,7 +38,7 @@ export async function getVacationACTION() {
         dispatch(getVacationSuccess(results.data))
         return results.data
     } catch (err) {
-    
+        dispatch(getVacationsIsLoading(false))
     } finally {
         dispatch(getVacationsIsLoading(false))
     }

@@ -67,7 +67,7 @@ function App() {
   // }, [userName])
 
   useEffect(() => {
-    console.log("use efeect on token", token)
+  
     if (token) {
       const newRoutesMap = routesMap.map(route => {
         if (route.path === "/login") {
@@ -80,7 +80,7 @@ function App() {
     }
 
 
-  }, [token])
+  }, [routesMap, token])
 
   useEffect(() => {
     getVacationACTION()
@@ -111,7 +111,7 @@ function App() {
       <AppModal />
       <Routes>
         {routes.map((route: IRoute) => (
-          <Route path={route.path} element={route.element} />
+          <Route key={route.path} path={route.path} element={route.element} />
         ))}
       </Routes>
     </Router>

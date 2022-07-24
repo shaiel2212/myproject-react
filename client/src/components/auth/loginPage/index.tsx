@@ -4,7 +4,7 @@ import { Navigate, useNavigate } from "react-router-dom";
 import { IUserLogin } from "../../../interface/User.interface";
 import { AUTHACTIONS } from "../../../store/actions";
 import { loginACTION } from "../../../store/asyncFunctions/auth";
-import { WithLoading } from "../../ui-components/loadingComponent";
+import { WithLoading } from "../../UI/loadingComponent";
 
 
 export function LoginPage() {

@@ -38,10 +38,10 @@ function VacationCard() {
         <div className='container'>
             <h1> vacations page </h1>
             {vacations?.map((vac: Ivacation) => {
-                if (!token) return
+              
                 return (
 
-                    <div>
+                    <div key={vac.vacation_id}>
                         <Card style={{ width: '18rem', }}>
                             <Card.Img variant="top" src="https://images.unsplash.com/photo-1562133567-b6a0a9c7e6eb?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTJ8fHZhY2F0aW9uc3xlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60" />
                             <Card.Body>
