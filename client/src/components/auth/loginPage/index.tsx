@@ -1,33 +1,32 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../Hook/ReduxHook";
 import { useNavigate } from "react-router-dom";
 
 import { WithLoading } from "../../UI/loadingComponent";
 import { loginRequest } from "../../../store/redusers/AuthSlice";
+import { isEmpty } from "../../../utils/_NotEmptyObject";
 
 export function LoginPage() {
   // #13
   const dispatch = useAppDispatch();
-  // const { isLoading } = useAppSelector((state) => state?.authSlice);
+
   const [userName, setUserName] = useState("");
   const [password, setPassword] = useState("");
-  const [showBtn, setShowBtn] = useState(false);
 
   let navigate = useNavigate();
 
-  async function login() {
-    // #14
+  async function handlerLogin(event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    const values = { userName, password };
+    if (!isEmpty(values)) return;
+
     await dispatch(
-      // #15
       loginRequest({
-        // #16
-        userName: "Shaiel12",
-        password: "123",
+        userName,
+        password,
       })
     );
   }
-
-  function loginSuccessRedirect(payload: boolean) {}
 
   return (
     <div className="login-form">
@@ -37,15 +36,9 @@ export function LoginPage() {
             <div className="form-content">
               <div className="form-items">
                 <h3>Login</h3>
-              
+
                 <WithLoading isLoading={false}>
-                  <form
-                    className="requires-validation"
-                    onSubmit={(e) => {
-                      e.preventDefault();
-                      login();
-                    }}
-                  >
+                  <form className="requires-validation" onSubmit={handlerLogin}>
                     <div className="col-md-12">
                       <input
                         value={userName}

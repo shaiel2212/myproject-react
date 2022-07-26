@@ -1,21 +1,18 @@
-
 export interface IUserLogin {
-    userName: string;
-    message: string;
-    token: string;
-    isAdmin: number;
+  userName: string;
+  message: string;
+  token: string;
+  isAdmin: number;
 }
 
 export interface ILoginPayload {
-    userName: string;
-    password: string;
+  userName: string;
+  password: string;
 }
 
-export interface IRegiterPayload {
-    user_name: string;
-    first_name: string;
-    last_name: string;
-    password: string;
-    isAdmin?: string;
+export interface IRegisterPayload {
+  userName:string;
+  firstName:string;
+  lastName:string;
+  password:string;
 }
-

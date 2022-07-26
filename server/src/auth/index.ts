@@ -56,15 +56,18 @@ export async function registerHandler(
   next: any
 ): Promise<{ newUser: IUserDB; message: string } | { message: string }> {
   const { userName, firstName, lastName, password } = req.body;
+  if(!userName || !firstName || !lastName || !password) return res.json({ massage: "ERROR fields " })
   const payload = { userName, firstName, lastName, password };
   try {
     const isUser: IUserDB = await isUserExist(userName);
     if (isUser) return res.status(401).send("Username already exists");
     const newUser = await addUser(payload);
-    return res.json({ newUser, message: `Success To Register ` });
+    console.log({ newUser });
+    return res.send({ message: `Success To Register ` });
   } catch (err) {
     return res.status(401).send({ massage: "ERROR on Register " });
   }
 }
 
 export default router;
+
