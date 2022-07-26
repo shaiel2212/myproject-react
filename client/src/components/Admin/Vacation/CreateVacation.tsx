@@ -6,7 +6,7 @@ import CustomInput from "../../UI/CustomInput";
 import { IVacation } from "./../../../interface/Vacation.interface";
 import "./createVacation.css";
 function AddVacation() {
-  const userName = useSelector((state: any) => state.authReducer?.userName);
+  // const userName = useSelector((state: any) => state.authReducer?.userName);
   const [vacationValues, setVacationValues] = useState<IVacation>({
     checkInDate: "",
     checkOutDate: "",

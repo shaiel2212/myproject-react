@@ -2,47 +2,102 @@ import React, { useState } from "react"
 import { useNavigate } from "react-router-dom"
 import { Button, Form } from "react-bootstrap"
 import { useSelector } from "react-redux"
-
+import { IRegiterPayload } from "../../../interface/User.interface";
+import CustomInput from "../../UI/CustomInput";
+import "./createUser.css";
 
 export function RegisterPage() {
 
- 
+    const [registerValues, setregisterValues] = useState<IRegiterPayload>({
+        userName: "",
+        firstName: "",
+        lastName: "",
+        password: "",
+        isAdmin: "",
 
-    const redirect = useSelector((state: any) => state.authReducer.redirectToLogin)
-    let navigate = useNavigate()
+    });
 
-    async function register() {
-       
-   
-       
+    const handleVacationForm = (
+        e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+    ): void => {
+        const { name, value } = e.target;
+
+
+        switch (name) {
+            case "userName":
+                return setregisterValues({ ...registerValues, userName: value });
+            case "firstName":
+                return setregisterValues({ ...registerValues, firstName: value });
+            case "lastName":
+                return setregisterValues({ ...registerValues, lastName: value });
+            case "password":
+                return setregisterValues({ ...registerValues, password: value });
+            default:
+        }
+    };
+    async function register(event: React.FormEvent<HTMLFormElement>) {
+        event.preventDefault
+
     }
 
     return (
         <div>
-            <Form onSubmit={(e) => {
-                e.preventDefault()
-                register()
-            }}>
-                <Form.Group className="mb-3" controlId="formBasicEmail">
-                    <Form.Label>User Name:</Form.Label>
-                    <Form.Control type="text" required placeholder="Enter User Name"  />
-                </Form.Group>
-                <Form.Group className="mb-3" controlId="formBasicEmail">
-                    <Form.Label>First Name:</Form.Label>
-                    <Form.Control type="text" required placeholder="Enter First Name"  />
-                </Form.Group>
-                <Form.Group className="mb-3" controlId="formBasicEmail">
-                    <Form.Label>Last Name:</Form.Label>
-                    <Form.Control type="text" required placeholder="Enter Last Name"  />
-                </Form.Group>
-                <Form.Group className="mb-3" controlId="formBasicEmail">
-                    <Form.Label>Password:</Form.Label>
-                    <Form.Control type="password" required placeholder="Enter Password"  />
-                </Form.Group>
-                <Button variant="primary" type="submit">
-                    Submit
-                </Button>
-            </Form>
+            <h1>Register Page</h1>
+            <form onSubmit={(e) => register(e)}>
+                <div className="form-container">
+                    
+                    <div className="input--row">
+                        <span className="input--col">
+                            <CustomInput
+                                label="User Name"
+                                name="userName"
+                                onChange={handleVacationForm}
+                                placeholder="User Name"
+                                type="text"
+                            />
+                        </span>
+
+                     
+
+                        <span className="input--col">
+                            <CustomInput
+                                label="First Name"
+                                name="firstName"
+                                onChange={handleVacationForm}
+                                placeholder="First Name"
+                                type="text"
+                            />
+                        </span>
+                    </div>
+                    {/* description */}
+                    <div className="input--row">
+                        <span className="input--col">
+                            <CustomInput
+                                label="Last Name"
+                                name="lasttName"
+                                onChange={handleVacationForm}
+                                placeholder="Last Name"
+                                type="text"
+                            />
+                        </span>
+
+                        <span className="input--col">
+                            <CustomInput
+                                label="Password"
+                                name="password"
+                                onChange={handleVacationForm}
+                                placeholder="Password"
+                                type="password"
+                            />
+                        </span>
+                    </div>
+                    <div >
+                        <button className="btn--submit--create--user" type="submit">
+                            Send
+                        </button>
+                    </div>
+                </div>
+            </form>
         </div>
     )
 }

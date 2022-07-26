@@ -1,41 +1,51 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { InitialState } from "../../interface/iState.interface";
 import { auth } from "../../service/auth.service";
-import { ILoginPayload, IUserLogin } from "./../../interface/User.interface";
+import { ILoginPayload, IUserLogin, IRegiterPayload } from "./../../interface/User.interface";
 // #8
 export const loginRequest = createAsyncThunk(
-    // #9
+  // #9
   "Send Request Login",
   // #10
   async (payload: ILoginPayload, err) => {
     try {
-         // #11
+      // #11
       const { data } = await auth.login(payload);
       return data;
     } catch (error: any) {
       if (error) {
-         // #12
-        return err.rejectWithValue(error?.message);
+        // #12
+        return err.rejectWithValue(error.message);
       }
     }
   }
 );
-// #3
-export interface InitialState {
-  message: string | null;
-  isLoading: boolean | null;
+export const registerRequest = createAsyncThunk(
+  "Send Request Register",
+  async (payload: IRegiterPayload, err) => {
+    try {
+      const { data } = await auth.register(payload);
+      return data;
+    } catch (error: any) {
+      if (error) {
+          return err.rejectWithValue(error.message);
+      }
+    }
+  }
+);
 
-  detailsUser: IUserLogin | null;
-}
+// #3
+
 // #4
 const initialState: InitialState = {
-  detailsUser: null,
-
+  loginState: null,
+  registerState: null,
   isLoading: false,
   message: null,
 };
 // #5
 const authSlice = createSlice({
-    // #6
+  // #6
   name: "auth",
   initialState,
   reducers: {},
@@ -47,13 +57,27 @@ const authSlice = createSlice({
       })
       .addCase(loginRequest.fulfilled, (state, action) => {
         state.isLoading = false;
-        state.detailsUser = action.payload;
+        state.loginState = action.payload;
       })
       .addCase(loginRequest.rejected, (state, action) => {
-        state.detailsUser = null;
+        state.loginState = null;
         state.isLoading = false;
         state.message = action.payload as string;
-      });
+      })
+      .addCase(registerRequest.pending, (state, action) => {
+        state.isLoading = true
+      })
+      .addCase(registerRequest.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.loginState = action.payload;
+      })
+      .addCase(registerRequest.rejected, (state, action) => {
+        state.loginState = null;
+        state.isLoading = false;
+        state.message = action.payload as string;
+      })
+      ;
+
   },
 });
 export default authSlice;

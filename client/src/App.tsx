@@ -10,7 +10,7 @@ import AddVacation from "./components/Admin/Vacation/CreateVacation";
 
 
 import path from "path";
-import VacationCard from "./components/Vacation/vaction";
+// import VacationCard from "./components/Vacation/vaction";
 
 interface IRoute {
   path: string;
@@ -29,12 +29,12 @@ function App() {
       element: <LoginPage />,
       invisible: false,
     },
-    {
-      path: "/vacations",
-      linkText: "Home",
-      element: <VacationCard />,
-      invisible: false,
-    },
+    // {
+    //   path: "/vacations",
+    //   linkText: "Home",
+    //   element: <VacationCard />,
+    //   invisible: false,
+    // },
     {
       path: "/register",
       linkText: "Register",
@@ -85,7 +85,7 @@ function App() {
     // }
   }, [routesMap]);
 
-  useEffect(() => {}, []);
+  useEffect(() => { }, []);
 
   return (
     <Router>

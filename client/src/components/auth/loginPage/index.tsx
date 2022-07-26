@@ -8,7 +8,7 @@ import { loginRequest } from "../../../store/redusers/AuthSlice";
 export function LoginPage() {
   // #13
   const dispatch = useAppDispatch();
-  const { isLoading } = useAppSelector((state) => state?.authSlice);
+  // const { isLoading } = useAppSelector((state) => state?.authSlice);
   const [userName, setUserName] = useState("");
   const [password, setPassword] = useState("");
   const [showBtn, setShowBtn] = useState(false);
@@ -37,7 +37,7 @@ export function LoginPage() {
             <div className="form-content">
               <div className="form-items">
                 <h3>Login</h3>
-                <p>Fill in the data below.</p>
+              
                 <WithLoading isLoading={false}>
                   <form
                     className="requires-validation"
