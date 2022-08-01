@@ -10,6 +10,7 @@ import AddVacation from "./components/Admin/Vacation/CreateVacation";
 
 
 import path from "path";
+import VacationCard from "./components/vacation/vaction";
 // import VacationCard from "./components/Vacation/vaction";
 
 interface IRoute {
@@ -29,12 +30,12 @@ function App() {
       element: <LoginPage />,
       invisible: false,
     },
-    // {
-    //   path: "/vacations",
-    //   linkText: "Home",
-    //   element: <VacationCard />,
-    //   invisible: false,
-    // },
+    {
+      path: "/vacations",
+      linkText: "Home",
+      element: <VacationCard />,
+      invisible: false,
+    },
     {
       path: "/register",
       linkText: "Register",

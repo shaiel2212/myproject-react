@@ -36,9 +36,9 @@ export const registerRequest = createAsyncThunk(
   }
 );
 
-// #3
 
-// #4
+
+
 const initialState: InitialState = {
   detailsUser: null,
 
@@ -46,9 +46,9 @@ const initialState: InitialState = {
   message: null,
   isRegisterSuccess: null,
 };
-// #5
+
 const authSlice = createSlice({
-  // #6
+
   name: "auth",
   initialState,
   reducers: {
@@ -56,7 +56,7 @@ const authSlice = createSlice({
       state.message = "";
     },
   },
-  // #7
+
   extraReducers(builder) {
     builder
       .addCase(loginRequest.pending, (state, action) => {

@@ -11,7 +11,7 @@ export const readVacationQuery = (): string => {
 ////////////////////////////////////////
 export const updateVacationQuery = () : string => {
     return (`UPDATE vacations SET title ='?',description='?',destination='?' ,imgUrl='?', checkInDate='?', checkOutDate='?', price='?' = WHERE (vacation_id = '?');`)
-
+//
 }
 
 
