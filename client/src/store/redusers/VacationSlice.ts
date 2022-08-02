@@ -18,7 +18,7 @@ export const vacationRequest = createAsyncThunk(
     }
   }
 );
-export const addVactionRequest = createAsyncThunk(
+export const addVacationRequest = createAsyncThunk(
   "Send Request To Add Vacation",
   async (payload: IVacation, err) => {
     try {
@@ -64,16 +64,16 @@ const vacationSlice = createSlice({
         state.isLoading = false;
         state.message = action?.payload as string;
       })
-      .addCase(addVactionRequest.pending, (state, action) => {
+      .addCase(addVacationRequest.pending, (state, action) => {
         state.isLoading = true;
       })
-      .addCase(addVactionRequest.fulfilled, (state, action) => {
+      .addCase(addVacationRequest.fulfilled, (state, action) => {
         console.log(action.payload);
         state.isLoading = false;
         state.vacation = { ...action.payload };
         state.message = action.payload.message as string;
       })
-      .addCase(addVactionRequest.rejected, (state, action) => {
+      .addCase(addVacationRequest.rejected, (state, action) => {
         state.isLoading = false;
         state.message = action?.payload as string;
         state.isRegisterSuccess = false;
