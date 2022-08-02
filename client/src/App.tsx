@@ -4,14 +4,10 @@ import { BrowserRouter as Router, Route, Link, Routes } from "react-router-dom";
 import { LoginPage } from "./components/auth/loginPage";
 import { RegisterPage } from "./components/auth/registerPage";
 
-
 import { Container, Nav, Navbar, NavDropdown } from "react-bootstrap";
 import AddVacation from "./components/Admin/Vacation/CreateVacation";
 
-
-import path from "path";
-import VacationCard from "./components/vacation/vaction";
-// import VacationCard from "./components/Vacation/vaction";
+import VacationCard from "./components/Vacation/VacationCard";
 
 interface IRoute {
   path: string;
@@ -51,8 +47,6 @@ function App() {
   ];
   const [routesMap, setRoutesMap] = useState(routes);
 
-
-
   // useEffect(() => {
   //   if (token) {
   //     console.log("use efeect on token", userName)
@@ -81,12 +75,11 @@ function App() {
     //     }
     //     return route;
     //   });
-
     //   setRoutesMap(newRoutesMap);
     // }
   }, [routesMap]);
 
-  useEffect(() => { }, []);
+  useEffect(() => {}, []);
 
   return (
     <Router>
@@ -128,7 +121,7 @@ function App() {
           ))}
         <Container>
           <Nav style={{ marginLeft: "80%", color: "white" }}>
-            <NavDropdown title={''}>Logout</NavDropdown>
+            <NavDropdown title={""}>Logout</NavDropdown>
           </Nav>
         </Container>
       </Navbar>

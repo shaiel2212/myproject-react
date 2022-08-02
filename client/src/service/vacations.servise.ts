@@ -2,11 +2,11 @@ import axiosInstance from "./index";
 
 import { IVacation } from "../interface/Vacation.interface";
 
+export const vacationService = {
+  get: async () => await axiosInstance.get("/vacations"),
 
-export const vacation = {
-    getVacations: async () =>
-        await axiosInstance.get("/vacations"),
-
-        addVacation: async (payload: IVacation) =>
-            await axiosInstance.post("/vacations", payload),
+  add: async (payload: IVacation) =>
+    await axiosInstance.post("/vacations", payload),
+    // delete: async (payload: IVacation) =>   await axiosInstance.delete("/vacations"),
+    // edit: async (payload: IVacation) =>   await axiosInstance.put("/vacations", payload),
 };
