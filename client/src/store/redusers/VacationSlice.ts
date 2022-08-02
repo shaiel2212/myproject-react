@@ -1,5 +1,5 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { InitialState } from "../../interface/iState.interface";
+import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
+
 import { auth } from "../../service/auth.service";
 import { vacationService } from "../../service/vacations.servise";
 import { IVacation } from "./../../interface/Vacation.interface";
@@ -7,7 +7,7 @@ import { IVacation } from "./../../interface/Vacation.interface";
 export const vacationRequest = createAsyncThunk(
   "Send Request To get Vacatio",
 
-  async (payload: IVacation, err) => {
+  async (_, err) => {
     try {
       const { data } = await vacationService.get();
       return data;
@@ -32,13 +32,20 @@ export const addVacationRequest = createAsyncThunk(
     }
   }
 );
-
+interface InitialState {
+  message: string | null;
+  isLoading: boolean | null;
+  vacations?: IVacation[] | null;
+  vacation: IVacation | null;
+  showModal: boolean | null;
+}
 const initialState: InitialState = {
-  detailsUser: null,
-  vacation: null,
+  vacations: null,
   isLoading: false,
   message: null,
-  isRegisterSuccess: null,
+
+  vacation: null,
+  showModal: null,
 };
 
 const vacationSlice = createSlice({
@@ -47,6 +54,11 @@ const vacationSlice = createSlice({
   reducers: {
     removeMessage: (state) => {
       state.message = "";
+    },
+    editVacation: (state, { payload }: PayloadAction<IVacation>) => {
+      console.log({ payload });
+      state.vacation = payload;
+      state.showModal = true;
     },
   },
 
@@ -57,10 +69,10 @@ const vacationSlice = createSlice({
       })
       .addCase(vacationRequest.fulfilled, (state, action) => {
         state.isLoading = false;
-        state.vacation = action.payload;
+        state.vacations = action.payload;
       })
       .addCase(vacationRequest.rejected, (state, action) => {
-        state.detailsUser = null;
+        
         state.isLoading = false;
         state.message = action?.payload as string;
       })
@@ -70,15 +82,15 @@ const vacationSlice = createSlice({
       .addCase(addVacationRequest.fulfilled, (state, action) => {
         console.log(action.payload);
         state.isLoading = false;
-        state.vacation = { ...action.payload };
+        state.vacations = { ...action.payload };
         state.message = action.payload.message as string;
       })
       .addCase(addVacationRequest.rejected, (state, action) => {
         state.isLoading = false;
         state.message = action?.payload as string;
-        state.isRegisterSuccess = false;
+     
       });
   },
 });
 export default vacationSlice;
-export const { removeMessage } = vacationSlice.actions;
+export const { removeMessage, editVacation } = vacationSlice.actions;

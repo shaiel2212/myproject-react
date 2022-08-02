@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { InitialState } from "../../interface/iState.interface";
+
 import { auth } from "../../service/auth.service";
 import {
   ILoginPayload,
@@ -36,8 +36,12 @@ export const registerRequest = createAsyncThunk(
   }
 );
 
-
-
+interface InitialState {
+  message: string | null;
+  isLoading: boolean | null;
+  detailsUser?: IUserLogin | null;
+  isRegisterSuccess: boolean | null;
+}
 
 const initialState: InitialState = {
   detailsUser: null,
@@ -48,12 +52,14 @@ const initialState: InitialState = {
 };
 
 const authSlice = createSlice({
-
   name: "auth",
   initialState,
   reducers: {
     removeMessage: (state) => {
       state.message = "";
+    },
+    logout: (state) => {
+      state.detailsUser = null;
     },
   },
 
@@ -75,7 +81,7 @@ const authSlice = createSlice({
         state.isLoading = true;
       })
       .addCase(registerRequest.fulfilled, (state, action) => {
-        console.log(action.payload)
+        console.log(action.payload);
         state.isLoading = false;
         state.isRegisterSuccess = true;
         state.message = action.payload.message as string;
@@ -88,4 +94,4 @@ const authSlice = createSlice({
   },
 });
 export default authSlice;
-export const { removeMessage } = authSlice.actions;
+export const { removeMessage, logout } = authSlice.actions;

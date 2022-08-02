@@ -1,29 +1,36 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import { useSelector } from "react-redux";
 
 import CustomInput from "../../UI/CustomInput";
-import { IVacation } from "./../../../interface/Vacation.interface";
+import { IVacation } from "../../../interface/Vacation.interface";
 import "./createVacation.css";
-function AddVacation() {
+
+const initialState: IVacation = {
+  checkInDate: "",
+  checkOutDate: "",
+  description: "",
+  destination: "",
+  imgUrl: "",
+  price: 0,
+  title: "",
+};
+
+function FormVacation({ vacation }: { vacation: IVacation | null }) {
   // const userName = useSelector((state: any) => state.authReducer?.userName);
-  const [vacationValues, setVacationValues] = useState<IVacation>({
-    checkInDate: "",
-    checkOutDate: "",
-    description: "",
-    destination: "",
-    imgUrl: "",
-    price: 0,
-    title: "",
-  });
+  const [vacationValues, setVacationValues] = useState<IVacation>(initialState);
+
+  useEffect(() => {
+    vacation && setVacationValues(vacation);
+    return () => setVacationValues(initialState);
+  }, [vacation]);
 
   const handleVacationForm = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ): void => {
     const { name, value } = e.target;
 
-   
-    switch (name) { 
+    switch (name) {
       case "title":
         return setVacationValues({ ...vacationValues, title: value });
       case "destination":
@@ -46,18 +53,25 @@ function AddVacation() {
     }
   };
 
-  
-
-  function addVacation(event: React.FormEvent<HTMLFormElement>) {
+  function vacationFormHandler(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     console.log({ vacationValues });
-   
   }
+  const {
+    checkInDate,
+    checkOutDate,
+    price,
+    description,
+    destination,
+    imgUrl,
+    title,
+    numberOfFollowers,
+  } = vacationValues;
 
   return (
     <div>
       <h1>Add Vacation</h1>
-      <form onSubmit={(e) => addVacation(e)}>
+      <form onSubmit={(e) => vacationFormHandler(e)}>
         <div className="form-container">
           {/* Title */}
           <div className="input--row">
@@ -68,6 +82,7 @@ function AddVacation() {
                 onChange={handleVacationForm}
                 placeholder="Title"
                 type="text"
+                value={title}
               />
             </span>
 
@@ -80,6 +95,7 @@ function AddVacation() {
                 onChange={handleVacationForm}
                 placeholder="imgUrl"
                 type="text"
+                value={imgUrl}
               />
             </span>
           </div>
@@ -92,11 +108,13 @@ function AddVacation() {
                 onChange={handleVacationForm}
                 placeholder="description"
                 type="text"
+                value={description}
               />
             </span>
 
             <span className="input--col">
               <CustomInput
+                value={destination}
                 label="destination"
                 name="destination"
                 onChange={handleVacationForm}
@@ -110,6 +128,7 @@ function AddVacation() {
           <div className="input--row">
             <span className="input--col">
               <CustomInput
+                value={checkInDate}
                 label="checkInDate"
                 name="checkInDate"
                 onChange={handleVacationForm}
@@ -120,6 +139,7 @@ function AddVacation() {
             {/* checkOutDate */}
             <span className="input--col">
               <CustomInput
+                value={checkOutDate}
                 label="checkOutDate"
                 name="checkOutDate"
                 onChange={handleVacationForm}
@@ -132,6 +152,7 @@ function AddVacation() {
           <div className="input--row ">
             <span className="input--col ">
               <CustomInput
+                value={String(price)}
                 label="price"
                 name="price"
                 onChange={handleVacationForm}
@@ -140,8 +161,8 @@ function AddVacation() {
               />
             </span>
             <button className="btn--submit--create--vacation" type="submit">
-                Send
-              </button>
+              Send
+            </button>
           </div>
         </div>
       </form>
@@ -149,4 +170,4 @@ function AddVacation() {
   );
 }
 
-export default AddVacation;
+export default FormVacation;

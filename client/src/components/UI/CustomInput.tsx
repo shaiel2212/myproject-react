@@ -1,10 +1,11 @@
 import React, { ChangeEventHandler } from "react";
 type ICustomInput = {
-  onChange:  React.ChangeEventHandler<HTMLInputElement> | undefined
+  onChange: React.ChangeEventHandler<HTMLInputElement> | undefined;
   name: string;
   type: string;
   placeholder: string;
   label: string;
+  value?: string;
 };
 
 const CustomInput = ({
@@ -13,6 +14,7 @@ const CustomInput = ({
   type,
   placeholder,
   label,
+  value,
 }: ICustomInput) => {
   return (
     <>
@@ -22,6 +24,7 @@ const CustomInput = ({
         name={name}
         onChange={onChange}
         placeholder={placeholder}
+        value={value}
       />
     </>
   );

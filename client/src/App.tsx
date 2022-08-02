@@ -5,7 +5,7 @@ import { LoginPage } from "./components/auth/loginPage";
 import { RegisterPage } from "./components/auth/registerPage";
 
 import { Container, Nav, Navbar, NavDropdown } from "react-bootstrap";
-import AddVacation from "./components/Admin/Vacation/CreateVacation";
+import AddVacation from "./components/Admin/Vacation/FormVacation";
 
 import VacationCard from "./components/Vacation/VacationCard";
 
@@ -36,12 +36,6 @@ function App() {
       path: "/register",
       linkText: "Register",
       element: <RegisterPage />,
-      invisible: false,
-    },
-    {
-      path: "/vacation",
-      linkText: "Add Vacation",
-      element: <AddVacation />,
       invisible: false,
     },
   ];

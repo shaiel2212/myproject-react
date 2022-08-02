@@ -6,6 +6,8 @@ export interface InitialState {
   isLoading: boolean | null;
   detailsUser?: IUserLogin | null;
   isRegisterSuccess: boolean | null;
-  vacation?: IVacation | null;
-
+  vacations?: IVacation[] | null;
+  vacation: IVacation | null;
+  showModal: boolean | null;
 }
+
