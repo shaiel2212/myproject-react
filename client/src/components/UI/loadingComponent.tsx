@@ -2,7 +2,7 @@ import { ReactElement } from "react";
 import { Spinner } from "react-bootstrap";
 
 export function WithLoading(props: {
-  isLoading: boolean;
+  isLoading: boolean|null;
   children: ReactElement;
 }) {
   return props.isLoading ? (
