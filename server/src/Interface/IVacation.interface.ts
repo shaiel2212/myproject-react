@@ -1,11 +1,11 @@
 interface IVacation {
-    id?: number;
-    title: string;
-    description: string;
-    destination: string;
-    imgUrl: string;
-    checkInDate: string;
-    checkOutDate: string;
-    price: string;
-    numberOfFollowers: undefined;
-  }
+  vacation_id?: number;
+  title: string;
+  description: string;
+  destination: string;
+  imgUrl: string;
+  checkInDate: string;
+  checkOutDate: string;
+  price: string;
+  numberOfFollowers: undefined;
+}

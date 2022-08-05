@@ -15,7 +15,7 @@ export async function addVacation({ title, description, destination, imgUrl, che
     const query = createVacationQuery();
     console.log({ title, description, destination, imgUrl, checkInDate, checkOutDate, price })
 
-    const row = await getConnection().execute(query, [  title, description, destination, imgUrl, checkInDate, checkOutDate, price ,0]);
+    const row = await getConnection().execute(query, [title, description, destination, imgUrl, checkInDate, checkOutDate, price, 0]);
     return row;
   } catch (ex) {
     console.log(ex);
@@ -46,27 +46,12 @@ export async function deleteVacations(id: string) {
 }
 
 export async function updateVacation(vacation: IVacation) {
-  const {
-    id,
-    title,
-    description,
-    destination,
-    imgUrl,
-    checkInDate,
-    checkOutDate,
-    price,
-  } = vacation;
+
   try {
     const query = updateVacationQuery();
-    await getConnection().execute(query, [
-      title,
-      description,
-      destination,
-      imgUrl,
-      checkInDate,
-      checkOutDate,
-      price,
-    ]);
+   
+    await getConnection().execute(query, [{...vacation}]);
+
     return true;
   } catch (error) {
     console.log("Error", error);

@@ -10,8 +10,9 @@ export const readVacationQuery = (): string => {
 }
 ////////////////////////////////////////
 export const updateVacationQuery = () : string => {
-    return (`UPDATE vacations SET title ='?',description='?',destination='?' ,imgUrl='?', checkInDate='?', checkOutDate='?', price='?' = WHERE (vacation_id = '?');`)
-//
+    return (`UPDATE vacations SET title ='sdf',description='sfdf',destination='dsf' ,imgUrl='sdfsd', checkInDate='?', checkOutDate='?', price='500' WHERE (vacation_id = '2');`)
+//UPDATE `vacation-app`.`vacations` SET `description` = 'some desdfsc', `imgUrl` = 'some sdfImgUrl' WHERE (`vacation_id` = '3');
+
 }
 
 

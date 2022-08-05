@@ -41,12 +41,34 @@ export async function deleteVacationHandler(req: any, res: any, next: any) {
 
 export async function updateVacationHandler(req: any, res: any, next: any) {
   try {
-    const { id } = req.params;
-    await updateVacation(id);
-    return res.status(200).send({ success: true });
+    const { id} = req.params;
+    const { title,
+      description,
+      destination,
+      imgUrl,
+      checkInDate,
+      checkOutDate,
+      price
+    } = req.body
+    const vacation = {
+      title,
+      description,
+      destination,
+      imgUrl,
+      checkInDate,
+      checkOutDate,
+      price:String(price),
+      vacation_id:id
+    }
+    console.log("updateVacationHandlfer", vacation)
+    const isSuccessUpdateVacation = await updateVacation(vacation as IVacation);
+    console.log("isSuccessUpdateVacation", isSuccessUpdateVacation)
+    if (!isSuccessUpdateVacation)
+      return res.status(400).send({ status: "failed to update Vacation" });
+    return res.status(200).send({ success: true, message: "succses" });
   } catch (error) {
     return res
-      .status(200)
-      .send({ success: false, message: "Failed to Update" });
+      .status(400)
+      .send({ success: false, message: "Failed to Update", error });
   }
 }
