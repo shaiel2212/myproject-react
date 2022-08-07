@@ -13,6 +13,6 @@ export const vacationService = {
       `/vacations/${payload.vacation_id}`,
       payload
     ),
-  // delete: async (payload: IVacation) =>   await axiosInstance.delete("/vacations"),
-  // edit: async (payload: IVacation) =>   await axiosInstance.put("/vacations", payload),
+  delete: async (vacation_id: number | string) =>
+    await axiosInstance.delete(`/vacations/${vacation_id}`),
 };

@@ -10,7 +10,8 @@ export async function addVacationHandler(req: any, res: any, next: any) {
     const isSuccessCreatedVacations = await addVacation(req.body);
     if (!isSuccessCreatedVacations)
       res.status(400).send({ status: "failed to add Vacation" });
-    return res.status(200).json({ message: "Vacation Added Successfully" });
+    const vacations = await getVacations();
+    return res.status(200).send(vacations);
   } catch (error) {
     return res.status(400).send(error);
   }
@@ -28,10 +29,11 @@ export async function getVacationsHandler(req: any, res: any, next: any) {
 
 export async function deleteVacationHandler(req: any, res: any, next: any) {
   try {
-    const { id } = req.params;
+    const { vacation_id } = req.params;
 
-    await deleteVacations(id);
-    return res.status(200).send({ success: true, id });
+    const isDeleted = await deleteVacations(vacation_id);
+
+    return res.status(200).send({ success: isDeleted, vacation_id });
   } catch (error) {
     return res
       .status(200)
@@ -50,8 +52,8 @@ export async function updateVacationHandler(req: any, res: any, next: any) {
       checkOutDate,
       price,
     } = req.body;
-    console.log(req.body);
-    const { id } = req.params;
+
+    const { vacation_id } = req.params;
     const vacationPayload: IVacation = {
       title,
       description,
@@ -60,7 +62,7 @@ export async function updateVacationHandler(req: any, res: any, next: any) {
       checkInDate,
       checkOutDate,
       price,
-      vacation_id: id,
+      vacation_id,
     };
     const updateSuccess = await updateVacation(vacationPayload);
     if (updateSuccess) {

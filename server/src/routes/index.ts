@@ -10,8 +10,8 @@ const router = Router();
 
 router.post("/vacations", addVacationHandler);
 router.get("/vacations", getVacationsHandler);
-router.delete("/vacations/:id", deleteVacationHandler);
-router.put("/vacations/:id", updateVacationHandler);
+router.delete("/vacations/:vacation_id", deleteVacationHandler);
+router.put("/vacations/:vacation_id", updateVacationHandler);
 router.post("/login", loginHandler);
 router.post("/logout", logoutHandler);
 router.post("/register", registerHandler);

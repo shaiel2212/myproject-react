@@ -2,7 +2,10 @@ import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
 
 import { auth } from "../../service/auth.service";
 import { vacationService } from "../../service/vacations.servise";
-import { IVacation } from "./../../interface/Vacation.interface";
+import {
+  IDeleteVacationResponse,
+  IVacation,
+} from "./../../interface/Vacation.interface";
 
 export const vacationRequest = createAsyncThunk(
   "Send Request To get Vacatio",
@@ -46,6 +49,19 @@ export const editVacationRequest = createAsyncThunk(
     }
   }
 );
+export const deleteVacationRequest = createAsyncThunk(
+  "delete/Vacation",
+  async (vacation_id: string | number, err) => {
+    try {
+      const { data } = await vacationService.delete(vacation_id);
+      return data;
+    } catch (error) {
+      if (error) {
+        return err.rejectWithValue(error);
+      }
+    }
+  }
+);
 
 interface InitialState {
   message: string | null;
@@ -54,6 +70,7 @@ interface InitialState {
   vacation: IVacation | null;
   showModalForEdit: boolean | null;
   status: string; // idle // success // rejected
+  showModalCreateVacation: boolean | null;
 }
 const initialState: InitialState = {
   vacations: null,
@@ -63,6 +80,7 @@ const initialState: InitialState = {
   vacation: null,
   showModalForEdit: null,
   status: "idle",
+  showModalCreateVacation: null,
 };
 
 const vacationSlice = createSlice({
@@ -77,8 +95,11 @@ const vacationSlice = createSlice({
       state.vacation = payload;
       state.showModalForEdit = true;
     },
-    toggleEditModal: (state) => {
-      state.showModalForEdit = false;
+    toggleModalForEdit: (state, { payload }) => {
+      state.showModalForEdit = payload as boolean;
+    },
+    toggleModalCreateVacation: (state, { payload }) => {
+      state.showModalCreateVacation = payload as boolean;
     },
   },
 
@@ -103,7 +124,7 @@ const vacationSlice = createSlice({
       .addCase(addVacationRequest.fulfilled, (state, action) => {
         console.log(action.payload);
         state.isLoading = false;
-        state.vacations = { ...action.payload };
+        state.vacations = action.payload as IVacation[];
         state.message = action.payload.message as string;
         state.status = "success";
       })
@@ -126,9 +147,30 @@ const vacationSlice = createSlice({
         state.isLoading = false;
         state.message = action?.payload as string;
         state.status = "rejected";
+      })
+      .addCase(deleteVacationRequest.pending, (state, action) => {
+        state.isLoading = true;
+      })
+      .addCase(deleteVacationRequest.fulfilled, (state, action) => {
+        console.log({ action }, "delete action");
+        state.isLoading = false;
+        state.status = "success";
+        state.vacations?.filter(
+          (vacation) => vacation.vacation_id !== (action.payload as string)
+        );
+      })
+      .addCase(deleteVacationRequest.rejected, (state, action) => {
+        state.isLoading = false;
+        state.message = action?.payload as string;
+        state.status = "rejected";
       });
   },
 });
+
 export default vacationSlice;
-export const { removeMessage, editVacation, toggleEditModal } =
-  vacationSlice.actions;
+export const {
+  removeMessage,
+  editVacation,
+  toggleModalForEdit,
+  toggleModalCreateVacation,
+} = vacationSlice.actions;

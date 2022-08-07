@@ -4,26 +4,37 @@ import { IVacation } from "../../interface/Vacation.interface";
 import { useAppDispatch, useAppSelector } from "../Hook/ReduxHook";
 import { useEffect } from "react";
 import {
+  deleteVacationRequest,
   editVacation,
+  toggleModalCreateVacation,
+  toggleModalForEdit,
   vacationRequest,
 } from "../../store/redusers/VacationSlice";
-import EditVacationModal from "./EditVacationModal";
+
+import VacationPopModal from "./VacationPopModal";
 
 function VacationCard() {
-  const { vacations, isLoading, vacation, showModalForEdit } = useAppSelector(
-    (state) => state.vacationSlice
-  );
-  const action = useAppDispatch();
+  const {
+    vacations,
+    isLoading,
+    vacation,
+    showModalForEdit,
+    showModalCreateVacation,
+  } = useAppSelector((state) => state.vacationSlice);
+  const dispatch = useAppDispatch();
   useEffect(() => {
-    action(vacationRequest());
+    dispatch(vacationRequest());
   }, []);
   useEffect(() => {
-    
+    console.log({ vacations });
   }, [vacations]);
 
   const editVacationHandler = (payload: IVacation) => {
-    action(editVacation(payload));
+    dispatch(editVacation(payload));
   };
+  function deleteVacationById(vacation_id: string | number): void {
+    dispatch(deleteVacationRequest(vacation_id));
+  }
 
   if (isLoading) {
     return (
@@ -33,9 +44,30 @@ function VacationCard() {
     );
   }
 
+  const VacationModalForm = (
+    <>
+      {showModalForEdit && (
+        <VacationPopModal
+          show={showModalForEdit}
+          vacation={vacation && vacation}
+          titleForm="Edit Vacation"
+        />
+      )}
+      {showModalCreateVacation && (
+        <VacationPopModal
+          show={showModalCreateVacation}
+          vacation={null}
+          titleForm="Create Vacation"
+        />
+      )}
+    </>
+  );
   return (
     <div className="container">
       <h1> vacations page </h1>
+      <button onClick={() => dispatch(toggleModalCreateVacation(true))}>
+        create new vacation
+      </button>
       {vacations?.map((vac: IVacation) => {
         return (
           <div key={vac.vacation_id}>
@@ -70,7 +102,12 @@ function VacationCard() {
                   <Button onClick={() => editVacationHandler(vac)}>
                     Update
                   </Button>
-                  <Button href="#" onClick={() => {}}>
+                  <Button
+                    href="#"
+                    onClick={() =>
+                      deleteVacationById(vac?.vacation_id as string | number)
+                    }
+                  >
                     Delete
                   </Button>
                 </Card.Body>
@@ -79,12 +116,7 @@ function VacationCard() {
           </div>
         );
       })}
-      {showModalForEdit && (
-        <EditVacationModal
-          show={showModalForEdit}
-          vacation={vacation && vacation}
-        />
-      )}
+      {VacationModalForm}
     </div>
   );
 }

@@ -6,15 +6,18 @@ import { IVacation } from "./../../interface/Vacation.interface";
 interface EditVacationModalProps {
   show: boolean;
   vacation: IVacation | null;
+  titleForm:string;
 }
-const EditVacationModal = ({ show, vacation }: EditVacationModalProps) => {
+const VacationPopModal = ({ show, vacation,titleForm }: EditVacationModalProps) => {
+  console.log({ show, vacation })
   return (
     <div>
+
       <Modal show={show}>
-        {vacation && <FormVacation vacation={vacation} />}
+        <FormVacation titleForm={titleForm} vacation={vacation} />
       </Modal>
     </div>
   );
 };
 
-export default EditVacationModal;
+export default VacationPopModal;

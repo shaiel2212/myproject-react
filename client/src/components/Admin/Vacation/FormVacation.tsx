@@ -5,8 +5,13 @@ import { useSelector } from "react-redux";
 import CustomInput from "../../UI/CustomInput";
 import { IVacation } from "../../../interface/Vacation.interface";
 import "./createVacation.css";
-import { useAppDispatch, useAppSelector } from './../../Hook/ReduxHook';
-import { editVacationRequest, toggleEditModal } from "../../../store/redusers/VacationSlice";
+import { useAppDispatch, useAppSelector } from "./../../Hook/ReduxHook";
+import {
+  addVacationRequest,
+  editVacationRequest,
+  toggleModalForEdit,
+} from "../../../store/redusers/VacationSlice";
+import { isEmpty } from "../../../utils/_NotEmptyObject";
 
 const initialState: IVacation = {
   checkInDate: "",
@@ -18,13 +23,12 @@ const initialState: IVacation = {
   title: "",
 };
 
-function FormVacation({ vacation }: { vacation: IVacation | null }) {
+function FormVacation({ vacation ,titleForm}: { vacation: IVacation | null ,titleForm:string}) {
   // const userName = useSelector((state: any) => state.authReducer?.userName);
   const [vacationValues, setVacationValues] = useState<IVacation>(initialState);
-  const {} = useAppSelector((state)=>state.vacationSlice)
-  const dispatch = useAppDispatch()
+  const {} = useAppSelector((state) => state.vacationSlice);
+  const dispatch = useAppDispatch();
   useEffect(() => {
-   
     vacation && setVacationValues(vacation);
     return () => setVacationValues(initialState);
   }, [vacation]);
@@ -59,10 +63,12 @@ function FormVacation({ vacation }: { vacation: IVacation | null }) {
 
   function vacationFormHandler(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    console.log({ vacationValues });
-    if(vacation?.vacation_id) {
-      dispatch(editVacationRequest({...vacationValues}))
-      dispatch(toggleEditModal())
+    if (isEmpty(vacationValues)) {
+      if (vacation?.vacation_id) {
+        dispatch(editVacationRequest({ ...vacationValues }));
+        dispatch(toggleModalForEdit(false));
+      } else if (!vacation?.vacation_id)
+        dispatch(addVacationRequest({ ...vacationValues }));
     }
   }
   const {
@@ -78,7 +84,7 @@ function FormVacation({ vacation }: { vacation: IVacation | null }) {
 
   return (
     <div>
-      <h1>Add Vacation</h1>
+      <h1>{titleForm}</h1>
       <form onSubmit={(e) => vacationFormHandler(e)}>
         <div className="form-container">
           {/* Title */}

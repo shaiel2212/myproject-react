@@ -9,3 +9,9 @@ export interface IVacation {
   price: number;
   numberOfFollowers?: string;
 }
+
+
+export interface IDeleteVacationResponse {
+  vacation_id: number | string;
+  success: boolean;
+}

@@ -8,7 +8,7 @@ CREATE TABLE `vacation-app`.`vacations` (
   `imgUrl` VARCHAR(255) NOT NULL,
   `checkInDate` VARCHAR(255) NOT NULL,
   `checkOutDate` VARCHAR(255) NOT NULL,
-  `price` VARCHAR(255) NOT NULL,
+  `price` INT(255) NOT NULL,
   `numberOfFollowers` INT NOT NULL  default 0,
   PRIMARY KEY (`vacation_id`));
 

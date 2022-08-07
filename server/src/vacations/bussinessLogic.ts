@@ -58,6 +58,7 @@ export async function getVacations() {
 }
 
 export async function deleteVacations(id: string) {
+  console.log({ id });
   const query = deleteVacationQuery();
   try {
     await getConnection().execute(query, [Number(id)]);
@@ -78,16 +79,6 @@ export async function updateVacation({
   title,
   vacation_id,
 }: IVacation) {
-  console.log([
-    title,
-    description,
-    destination,
-    imgUrl,
-    checkInDate,
-    checkOutDate,
-    String(price),
-    vacation_id,
-  ]);
   try {
     const query = updateVacationQuery();
     await getConnection().execute(query, [
