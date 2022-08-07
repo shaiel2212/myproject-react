@@ -5,6 +5,8 @@ import { useSelector } from "react-redux";
 import CustomInput from "../../UI/CustomInput";
 import { IVacation } from "../../../interface/Vacation.interface";
 import "./createVacation.css";
+import { useAppDispatch, useAppSelector } from './../../Hook/ReduxHook';
+import { editVacationRequest, toggleEditModal } from "../../../store/redusers/VacationSlice";
 
 const initialState: IVacation = {
   checkInDate: "",
@@ -19,8 +21,10 @@ const initialState: IVacation = {
 function FormVacation({ vacation }: { vacation: IVacation | null }) {
   // const userName = useSelector((state: any) => state.authReducer?.userName);
   const [vacationValues, setVacationValues] = useState<IVacation>(initialState);
-
+  const {} = useAppSelector((state)=>state.vacationSlice)
+  const dispatch = useAppDispatch()
   useEffect(() => {
+   
     vacation && setVacationValues(vacation);
     return () => setVacationValues(initialState);
   }, [vacation]);
@@ -56,6 +60,10 @@ function FormVacation({ vacation }: { vacation: IVacation | null }) {
   function vacationFormHandler(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     console.log({ vacationValues });
+    if(vacation?.vacation_id) {
+      dispatch(editVacationRequest({...vacationValues}))
+      dispatch(toggleEditModal())
+    }
   }
   const {
     checkInDate,

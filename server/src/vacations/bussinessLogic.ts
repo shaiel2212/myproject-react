@@ -6,16 +6,39 @@ import {
   updateVacationQuery,
 } from "./query";
 
-
-
-export async function addVacation({ title, description, destination, imgUrl, checkInDate, checkOutDate, price }: IVacation) {
+export async function addVacation({
+  title,
+  description,
+  destination,
+  imgUrl,
+  checkInDate,
+  checkOutDate,
+  price,
+}: IVacation) {
   //const query = createVacationQuery()
 
   try {
     const query = createVacationQuery();
-    console.log({ title, description, destination, imgUrl, checkInDate, checkOutDate, price })
+    console.log({
+      title,
+      description,
+      destination,
+      imgUrl,
+      checkInDate,
+      checkOutDate,
+      price,
+    });
 
-    const row = await getConnection().execute(query, [  title, description, destination, imgUrl, checkInDate, checkOutDate, price ,0]);
+    const row = await getConnection().execute(query, [
+      title,
+      description,
+      destination,
+      imgUrl,
+      checkInDate,
+      checkOutDate,
+      price,
+      0,
+    ]);
     return row;
   } catch (ex) {
     console.log(ex);
@@ -45,17 +68,26 @@ export async function deleteVacations(id: string) {
   }
 }
 
-export async function updateVacation(vacation: IVacation) {
-  const {
-    id,
+export async function updateVacation({
+  checkInDate,
+  checkOutDate,
+  description,
+  destination,
+  imgUrl,
+  price,
+  title,
+  vacation_id,
+}: IVacation) {
+  console.log([
     title,
     description,
     destination,
     imgUrl,
     checkInDate,
     checkOutDate,
-    price,
-  } = vacation;
+    String(price),
+    vacation_id,
+  ]);
   try {
     const query = updateVacationQuery();
     await getConnection().execute(query, [
@@ -66,6 +98,7 @@ export async function updateVacation(vacation: IVacation) {
       checkInDate,
       checkOutDate,
       price,
+      vacation_id,
     ]);
     return true;
   } catch (error) {

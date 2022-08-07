@@ -1,7 +1,7 @@
-const mysql2 = require("mysql2/promise");
-import dotenv from "dotenv"
+import mysql2, { Connection } from "mysql2/promise";
+import dotenv from "dotenv";
 
-dotenv.config()
+dotenv.config();
 
 const {
   MYSQL_DB_HOST: host,
@@ -10,19 +10,13 @@ const {
   MYSQL_DB_PASS: password,
   MYSQL_DB_SCHEMA: database,
 } = process.env;
-
-let connection: any = null;
+const config = { host, port, user, password, database };
+let connection: Connection = null;
 
 async function initDB() {
   console.log("Database initilization Start");
   try {
-    connection = await mysql2.createConnection({
-      host,
-      port,
-      user,
-      password,
-      database,
-    });
+    connection = await mysql2.createConnection(config as unknown as string);
   } catch (error) {
     console.log(error);
     console.log("Application shut down due to MySQL connection error");
@@ -30,8 +24,8 @@ async function initDB() {
   }
 }
 
- function getConnection() {
-  return  connection;
+function getConnection() {
+  return connection;
 }
 
 export { initDB, getConnection };

@@ -1,5 +1,5 @@
 interface IVacation {
-    id?: number;
+  vacation_id?: number | string;
     title: string;
     description: string;
     destination: string;
@@ -7,5 +7,5 @@ interface IVacation {
     checkInDate: string;
     checkOutDate: string;
     price: string;
-    numberOfFollowers: undefined;
+    numberOfFollowers?: number;
   }

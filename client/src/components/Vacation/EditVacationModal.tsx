@@ -5,17 +5,13 @@ import { IVacation } from "./../../interface/Vacation.interface";
 
 interface EditVacationModalProps {
   show: boolean;
-  vacation: IVacation|null;
+  vacation: IVacation | null;
 }
-const EditVacationModal = ({ show ,vacation}: EditVacationModalProps) => {
-    useEffect(()=>{
-
-    },[show])
-
+const EditVacationModal = ({ show, vacation }: EditVacationModalProps) => {
   return (
     <div>
-      <Modal show={true}>
-        <FormVacation vacation={vacation}/>
+      <Modal show={show}>
+        {vacation && <FormVacation vacation={vacation} />}
       </Modal>
     </div>
   );

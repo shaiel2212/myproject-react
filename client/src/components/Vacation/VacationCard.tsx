@@ -10,14 +10,16 @@ import {
 import EditVacationModal from "./EditVacationModal";
 
 function VacationCard() {
+  const { vacations, isLoading, vacation, showModalForEdit } = useAppSelector(
+    (state) => state.vacationSlice
+  );
   const action = useAppDispatch();
   useEffect(() => {
     action(vacationRequest());
   }, []);
-
-  const { vacations, isLoading ,vacation,showModal} = useAppSelector(
-    (state) => state.vacationSlice
-  );
+  useEffect(() => {
+    
+  }, [vacations]);
 
   const editVacationHandler = (payload: IVacation) => {
     action(editVacation(payload));
@@ -77,7 +79,12 @@ function VacationCard() {
           </div>
         );
       })}
-    {showModal &&   <EditVacationModal show={showModal} vacation={vacation && vacation} />}
+      {showModalForEdit && (
+        <EditVacationModal
+          show={showModalForEdit}
+          vacation={vacation && vacation}
+        />
+      )}
     </div>
   );
 }

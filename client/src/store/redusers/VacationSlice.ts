@@ -32,12 +32,28 @@ export const addVacationRequest = createAsyncThunk(
     }
   }
 );
+
+export const editVacationRequest = createAsyncThunk(
+  "Edit/Vacation",
+  async (payload: IVacation, err) => {
+    try {
+      const { data } = await vacationService.edit(payload);
+      return data;
+    } catch (error) {
+      if (error) {
+        return err.rejectWithValue(error);
+      }
+    }
+  }
+);
+
 interface InitialState {
   message: string | null;
   isLoading: boolean | null;
   vacations?: IVacation[] | null;
   vacation: IVacation | null;
-  showModal: boolean | null;
+  showModalForEdit: boolean | null;
+  status: string; // idle // success // rejected
 }
 const initialState: InitialState = {
   vacations: null,
@@ -45,7 +61,8 @@ const initialState: InitialState = {
   message: null,
 
   vacation: null,
-  showModal: null,
+  showModalForEdit: null,
+  status: "idle",
 };
 
 const vacationSlice = createSlice({
@@ -58,7 +75,10 @@ const vacationSlice = createSlice({
     editVacation: (state, { payload }: PayloadAction<IVacation>) => {
       console.log({ payload });
       state.vacation = payload;
-      state.showModal = true;
+      state.showModalForEdit = true;
+    },
+    toggleEditModal: (state) => {
+      state.showModalForEdit = false;
     },
   },
 
@@ -70,11 +90,12 @@ const vacationSlice = createSlice({
       .addCase(vacationRequest.fulfilled, (state, action) => {
         state.isLoading = false;
         state.vacations = action.payload;
+        state.status = "success";
       })
       .addCase(vacationRequest.rejected, (state, action) => {
-        
         state.isLoading = false;
         state.message = action?.payload as string;
+        state.status = "rejected";
       })
       .addCase(addVacationRequest.pending, (state, action) => {
         state.isLoading = true;
@@ -84,13 +105,30 @@ const vacationSlice = createSlice({
         state.isLoading = false;
         state.vacations = { ...action.payload };
         state.message = action.payload.message as string;
+        state.status = "success";
       })
       .addCase(addVacationRequest.rejected, (state, action) => {
         state.isLoading = false;
         state.message = action?.payload as string;
-     
+        state.status = "rejected";
+      })
+      .addCase(editVacationRequest.pending, (state, action) => {
+        state.isLoading = true;
+      })
+      .addCase(editVacationRequest.fulfilled, (state, action) => {
+        console.log(action.payload, "action.payload");
+
+        state.isLoading = false;
+        state.status = "success";
+        state.vacations = action.payload as IVacation[];
+      })
+      .addCase(editVacationRequest.rejected, (state, action) => {
+        state.isLoading = false;
+        state.message = action?.payload as string;
+        state.status = "rejected";
       });
   },
 });
 export default vacationSlice;
-export const { removeMessage, editVacation } = vacationSlice.actions;
+export const { removeMessage, editVacation, toggleEditModal } =
+  vacationSlice.actions;
