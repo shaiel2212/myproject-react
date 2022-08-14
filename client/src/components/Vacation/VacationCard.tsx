@@ -6,28 +6,21 @@ import { useEffect } from "react";
 import {
   deleteVacationRequest,
   editVacation,
-  toggleModalCreateVacation,
-  toggleModalForEdit,
+  openModal,
+  closeModal,
   vacationRequest,
 } from "../../store/redusers/VacationSlice";
 
 import VacationPopModal from "./VacationPopModal";
 
 function VacationCard() {
-  const {
-    vacations,
-    isLoading,
-    vacation,
-    showModalForEdit,
-    showModalCreateVacation,
-  } = useAppSelector((state) => state.vacationSlice);
+  const { vacations, isLoading, vacation, showModal } = useAppSelector(
+    (state) => state.vacationSlice
+  );
   const dispatch = useAppDispatch();
   useEffect(() => {
     dispatch(vacationRequest());
   }, []);
-  useEffect(() => {
-    console.log({ vacations });
-  }, [vacations]);
 
   const editVacationHandler = (payload: IVacation) => {
     dispatch(editVacation(payload));
@@ -46,18 +39,11 @@ function VacationCard() {
 
   const VacationModalForm = (
     <>
-      {showModalForEdit && (
+      {showModal && (
         <VacationPopModal
-          show={showModalForEdit}
-          vacation={vacation && vacation}
-          titleForm="Edit Vacation"
-        />
-      )}
-      {showModalCreateVacation && (
-        <VacationPopModal
-          show={showModalCreateVacation}
-          vacation={null}
-          titleForm="Create Vacation"
+          show={showModal}
+          vacation={vacation ? vacation : null}
+          titleForm={vacation ? "Edit Vacation" : "Create Vacation"}
         />
       )}
     </>
@@ -65,7 +51,7 @@ function VacationCard() {
   return (
     <div className="container">
       <h1> vacations page </h1>
-      <button onClick={() => dispatch(toggleModalCreateVacation(true))}>
+      <button onClick={() => dispatch(openModal())}>
         create new vacation
       </button>
       {vacations?.map((vac: IVacation) => {

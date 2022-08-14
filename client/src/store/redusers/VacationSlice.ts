@@ -68,9 +68,9 @@ interface InitialState {
   isLoading: boolean | null;
   vacations?: IVacation[] | null;
   vacation: IVacation | null;
-  showModalForEdit: boolean | null;
+
   status: string; // idle // success // rejected
-  showModalCreateVacation: boolean | null;
+  showModal: boolean | null;
 }
 const initialState: InitialState = {
   vacations: null,
@@ -78,9 +78,9 @@ const initialState: InitialState = {
   message: null,
 
   vacation: null,
-  showModalForEdit: null,
+
   status: "idle",
-  showModalCreateVacation: null,
+  showModal: false,
 };
 
 const vacationSlice = createSlice({
@@ -91,15 +91,14 @@ const vacationSlice = createSlice({
       state.message = "";
     },
     editVacation: (state, { payload }: PayloadAction<IVacation>) => {
-      console.log({ payload });
       state.vacation = payload;
-      state.showModalForEdit = true;
+      state.showModal = true;
     },
-    toggleModalForEdit: (state, { payload }) => {
-      state.showModalForEdit = payload as boolean;
+    openModal: (state) => {
+      state.showModal = true;
     },
-    toggleModalCreateVacation: (state, { payload }) => {
-      state.showModalCreateVacation = payload as boolean;
+    closeModal: (state) => {
+      state.showModal = false;
     },
   },
 
@@ -171,6 +170,6 @@ export default vacationSlice;
 export const {
   removeMessage,
   editVacation,
-  toggleModalForEdit,
-  toggleModalCreateVacation,
+  openModal,
+  closeModal
 } = vacationSlice.actions;

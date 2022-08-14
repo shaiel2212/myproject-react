@@ -48,7 +48,7 @@ const initialState: InitialState = {
 
   isLoading: false,
   message: null,
-  isRegisterSuccess: null,
+  isRegisterSuccess: false,
 };
 
 const authSlice = createSlice({

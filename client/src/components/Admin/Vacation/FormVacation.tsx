@@ -9,7 +9,8 @@ import { useAppDispatch, useAppSelector } from "./../../Hook/ReduxHook";
 import {
   addVacationRequest,
   editVacationRequest,
-  toggleModalForEdit,
+  openModal,
+  closeModal,
 } from "../../../store/redusers/VacationSlice";
 import { isEmpty } from "../../../utils/_NotEmptyObject";
 
@@ -23,7 +24,13 @@ const initialState: IVacation = {
   title: "",
 };
 
-function FormVacation({ vacation ,titleForm}: { vacation: IVacation | null ,titleForm:string}) {
+function FormVacation({
+  vacation,
+  titleForm,
+}: {
+  vacation: IVacation | null;
+  titleForm: string;
+}) {
   // const userName = useSelector((state: any) => state.authReducer?.userName);
   const [vacationValues, setVacationValues] = useState<IVacation>(initialState);
   const {} = useAppSelector((state) => state.vacationSlice);
@@ -66,9 +73,11 @@ function FormVacation({ vacation ,titleForm}: { vacation: IVacation | null ,titl
     if (isEmpty(vacationValues)) {
       if (vacation?.vacation_id) {
         dispatch(editVacationRequest({ ...vacationValues }));
-        dispatch(toggleModalForEdit(false));
-      } else if (!vacation?.vacation_id)
+        dispatch(closeModal());
+      } else {
         dispatch(addVacationRequest({ ...vacationValues }));
+        dispatch(closeModal());
+      }
     }
   }
   const {

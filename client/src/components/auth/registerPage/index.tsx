@@ -55,11 +55,11 @@ export function RegisterPage() {
       <h1>Register Page</h1>
       <div>
         {" "}
-        {message?.length ? (
+        {/* {message?.length ? (
           <Alert variant={isRegisterSuccess ? "success" : "danger"}>
             {message}
           </Alert>
-        ) : null}
+        ) : <></>} */}
       </div>
       <form onSubmit={(e) => register(e)}>
         <div className="form-container">
