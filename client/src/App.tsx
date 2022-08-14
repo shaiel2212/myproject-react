@@ -8,73 +8,19 @@ import { Container, Nav, Navbar, NavDropdown } from "react-bootstrap";
 import AddVacation from "./components/Admin/Vacation/FormVacation";
 
 import VacationCard from "./components/Vacation/VacationCard";
-
-interface IRoute {
-  path: string;
-  linkText: string;
-  element: any;
-  invisible?: boolean;
-}
-
-let isLogin = false;
+import { IRoute, routes } from "./pages/routing";
+import { useAppSelector } from "./components/Hook/ReduxHook";
+import { getItem, setItem } from "./utils/localStorage";
 
 function App() {
-  const routes = [
-    {
-      path: "/login",
-      linkText: "Login",
-      element: <LoginPage />,
-      invisible: false,
-    },
-    {
-      path: "/vacations",
-      linkText: "Home",
-      element: <VacationCard />,
-      invisible: false,
-    },
-    {
-      path: "/register",
-      linkText: "Register",
-      element: <RegisterPage />,
-      invisible: false,
-    },
-  ];
   const [routesMap, setRoutesMap] = useState(routes);
-
-  // useEffect(() => {
-  //   if (token) {
-  //     console.log("use efeect on token", userName)
-  //     if (userName === "shaiel12") {
-  //       routesMap.map(i => {
-
-  //         console.log("######################################## courrnt i.invisible", i.invisible)
-  //         if (i.invisible = true) {
-  //           let iInvisble = i.invisible
-  //           return { ...i, iInvisble : false }
-
-  //           console.log("######################################## newnewinvisible ", iInvisble)
-  //           return iInvisble
-  //         }
-  //       })
-  //     }
-  //   }
-
-  // }, [userName])
+  const { isLoading, detailsUser } = useAppSelector((state) => state.authSlice);
+  const [isLogin, setIsLogin] = useState(false);
 
   useEffect(() => {
-    // if (token) {
-    //   const newRoutesMap = routesMap.map((route) => {
-    //     if (route.path === "/login") {
-    //       return { ...route, invisible: true };
-    //     }
-    //     return route;
-    //   });
-    //   setRoutesMap(newRoutesMap);
-    // }
-  }, [routesMap]);
-
-  useEffect(() => {}, []);
-
+    if (detailsUser) setItem("jwt", detailsUser.token);
+    setIsLogin(true);
+  }, [detailsUser]);
   return (
     <Router>
       <Navbar
@@ -95,24 +41,22 @@ function App() {
             Vacation App
           </Navbar.Brand>
         </Container>
-        {routesMap
-          .filter((route: IRoute) => !route.invisible)
-          .map((route: IRoute) => (
-            <span key={route.linkText} style={{ margin: "5px" }}>
-              <Nav.Link
-                as={Link}
-                key={route.linkText}
-                style={{
-                  textDecoration: "none",
-                  color: "white",
-                  whiteSpace: "nowrap",
-                }}
-                to={route.path}
-              >
-                {route.linkText}
-              </Nav.Link>
-            </span>
-          ))}
+        {routesMap.map((route: IRoute) => (
+          <span key={route.linkText} style={{ margin: "5px" }}>
+            <Nav.Link
+              as={Link}
+              key={route.linkText}
+              style={{
+                textDecoration: "none",
+                color: "white",
+                whiteSpace: "nowrap",
+              }}
+              to={route.path}
+            >
+              {route.linkText}
+            </Nav.Link>
+          </span>
+        ))}
         <Container>
           <Nav style={{ marginLeft: "80%", color: "white" }}>
             <NavDropdown title={""}>Logout</NavDropdown>
