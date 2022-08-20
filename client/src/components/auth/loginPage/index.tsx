@@ -18,14 +18,15 @@ export function LoginPage() {
   async function handlerLogin(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     const values = { userName, password };
-    // if (!isEmpty(values)) return;
+    if (!isEmpty(values)) return;
 
     await dispatch(
       loginRequest({
-        userName:'shaiel12',
-        password:'123',
+        userName,
+        password,
       })
     );
+    navigate("/vacations");
   }
 
   return (
@@ -43,7 +44,6 @@ export function LoginPage() {
               type="text"
               name="name"
               placeholder="Full Name"
-       
             />
             <div>Username field is valid!</div>
             <div>Username field cannot be blank!</div>
@@ -57,8 +57,6 @@ export function LoginPage() {
               type="password"
               name="password"
               placeholder="Password"
-              
-            
             />
             <div>Password field is valid!</div>
             <div>Password field cannot be blank!</div>

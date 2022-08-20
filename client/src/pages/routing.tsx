@@ -7,6 +7,7 @@ export interface IRoute {
   linkText: string;
   element: JSX.Element | JSX.Element[];
   invisible?: boolean;
+  exact: boolean;
 }
 
 export const routes: IRoute[] = [
@@ -15,16 +16,20 @@ export const routes: IRoute[] = [
     linkText: "Login",
     element: <LoginPage />,
     invisible: true,
+    exact: true,
   },
   {
     path: "/vacations",
     linkText: "Home",
     element: <VacationCard />,
+    exact: false,
   },
   {
     path: "/register",
     linkText: "Register",
     element: <RegisterPage />,
     invisible: true,
+    exact: true,
   },
+
 ];

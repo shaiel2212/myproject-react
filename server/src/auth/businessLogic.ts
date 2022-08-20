@@ -40,3 +40,9 @@ export async function hashPassword(password: string): Promise<string> {
   const newPassword = await bcrypt.hash(password, saltRounds);
   return newPassword;
 }
+export const getDetailsByUserName = async (userName: string) => {
+  const query = getUserByUserName();
+
+  const [result] = await getConnection().execute(query, [userName]);
+  return result;
+};

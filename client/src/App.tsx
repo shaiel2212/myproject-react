@@ -1,25 +1,33 @@
 import React, { useEffect, useState } from "react";
 import { BrowserRouter as Router, Route, Link, Routes } from "react-router-dom";
 
-import { LoginPage } from "./components/auth/loginPage";
-import { RegisterPage } from "./components/auth/registerPage";
-
 import { Container, Nav, Navbar, NavDropdown } from "react-bootstrap";
 import AddVacation from "./components/Admin/Vacation/FormVacation";
 
-import VacationCard from "./components/Vacation/VacationCard";
 import { IRoute, routes } from "./pages/routing";
-import { useAppSelector } from "./components/Hook/ReduxHook";
-import { getItem, setItem } from "./utils/localStorage";
+import { useAppDispatch, useAppSelector } from "./components/Hook/ReduxHook";
+import { setItem, getItem } from "./utils/localStorage";
+import PrivateRoutes from "./pages/PrivateRoutes";
+import { RegisterPage } from "./components/auth/registerPage";
+import VacationCard from "./components/Vacation/VacationCard";
+import { LoginPage } from "./components/auth/loginPage";
+import { verifyToken } from "./store/redusers/AuthSlice";
 
 function App() {
   const [routesMap, setRoutesMap] = useState(routes);
   const { isLoading, detailsUser } = useAppSelector((state) => state.authSlice);
   const [isLogin, setIsLogin] = useState(false);
+  const dispatch = useAppDispatch();
+  const jwt = getItem("jwt");
+  useEffect(() => {
+    console.log({ jwt });
+    jwt && dispatch(verifyToken(jwt));
+  }, [dispatch, jwt]);
 
   useEffect(() => {
-    if (detailsUser) setItem("jwt", detailsUser.token);
-    setIsLogin(true);
+    if (detailsUser) {
+      setItem("jwt", detailsUser.token);
+    }
   }, [detailsUser]);
   return (
     <Router>
@@ -63,11 +71,17 @@ function App() {
           </Nav>
         </Container>
       </Navbar>
-
       <Routes>
-        {routes.map((route: IRoute) => (
-          <Route key={route.path} path={route.path} element={route.element} />
-        ))}
+        {detailsUser?.token ? (
+          <>
+            <Route element={<VacationCard />} path="/vacations" />
+          </>
+        ) : (
+          <>
+            <Route element={<LoginPage />} path="/login" />
+            <Route element={<RegisterPage />} path="/register" />
+          </>
+        )}
       </Routes>
     </Router>
   );

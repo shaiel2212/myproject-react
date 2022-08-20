@@ -12,11 +12,14 @@ import {
 } from "../../store/redusers/VacationSlice";
 
 import VacationPopModal from "./VacationPopModal";
+import ButtonEl from "../UI/Button";
 
 function VacationCard() {
-  const { vacations, isLoading, vacation, showModal } = useAppSelector(
-    (state) => state.vacationSlice
-  );
+  const {
+    vacationSlice: { vacations, isLoading, vacation, showModal },
+    authSlice: { detailsUser },
+  } = useAppSelector((state) => state);
+
   const dispatch = useAppDispatch();
   useEffect(() => {
     dispatch(vacationRequest());
@@ -51,9 +54,11 @@ function VacationCard() {
   return (
     <div className="container">
       <h1> vacations page </h1>
-      <button onClick={() => dispatch(openModal())}>
-        create new vacation
-      </button>
+      {detailsUser?.isAdmin === 1 && (
+        <button onClick={() => dispatch(openModal())}>
+          create new vacation
+        </button>
+      )}
       {vacations?.map((vac: IVacation) => {
         return (
           <div key={vac.vacation_id}>
@@ -70,12 +75,6 @@ function VacationCard() {
                   Check In Date : {moment(vac.checkInDate).format("DD/MM/YYYY")}
                 </Card.Text>
                 <Card.Text>
-                  {/* <InputGroup className="mb-3">
-
-                                        <Form.Control type="date"aria-label="Amount (to the nearest dollar)" />
-
-                                    </InputGroup> */}
-                  Check Out Date :{" "}
                   {moment(vac.checkOutDate).format("DD/MM/YYYY")}
                 </Card.Text>
                 <Card.Text>Price : {vac.price}$</Card.Text>
@@ -85,17 +84,26 @@ function VacationCard() {
               </Card.Body>
               <div>
                 <Card.Body>
-                  <Button onClick={() => editVacationHandler(vac)}>
-                    Update
-                  </Button>
-                  <Button
-                    href="#"
-                    onClick={() =>
-                      deleteVacationById(vac?.vacation_id as string | number)
-                    }
-                  >
-                    Delete
-                  </Button>
+                  <>
+                    {detailsUser?.isAdmin === 1 ? (
+                      <>
+                        <ButtonEl
+                          title="Update"
+                          onClick={() => editVacationHandler(vac)}
+                        />
+                        <ButtonEl
+                          title="Delete"
+                          onClick={() =>
+                            deleteVacationById(
+                              vac?.vacation_id as string | number
+                            )
+                          }
+                        />
+                      </>
+                    ) : (
+                      <>"להציג כפתור אהבתי"</>
+                    )}
+                  </>
                 </Card.Body>
               </div>
             </Card>

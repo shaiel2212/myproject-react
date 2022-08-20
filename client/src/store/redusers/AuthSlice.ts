@@ -37,6 +37,22 @@ export const registerRequest = createAsyncThunk(
   }
 );
 
+export const verifyToken = createAsyncThunk(
+  "Send verify Token",
+  async (payload: string, err) => {
+    try {
+      const { data } = await auth.verifyToken(payload);
+      console.log({data})
+      return data;
+    } catch (error: any) {
+      if (error) {
+        console.log(error?.response?.data);
+        return err.rejectWithValue(error?.response?.data);
+      }
+    }
+  }
+);
+
 interface InitialState {
   message: string | null;
   isLoading: boolean | null;
@@ -91,6 +107,18 @@ const authSlice = createSlice({
         state.isLoading = false;
         state.message = action?.payload as string;
         state.isRegisterSuccess = false;
+      })
+      .addCase(verifyToken.pending, (state, action) => {
+        state.isLoading = true;
+      })
+      .addCase(verifyToken.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.detailsUser = action.payload;
+      })
+      .addCase(verifyToken.rejected, (state, action) => {
+        state.detailsUser = null;
+        state.isLoading = false;
+        state.message = action.payload as string;
       });
   },
 });
