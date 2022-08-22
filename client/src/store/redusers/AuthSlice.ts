@@ -42,7 +42,7 @@ export const verifyToken = createAsyncThunk(
   async (payload: string, err) => {
     try {
       const { data } = await auth.verifyToken(payload);
-      console.log({data})
+      console.log({ data });
       return data;
     } catch (error: any) {
       if (error) {
@@ -76,6 +76,7 @@ const authSlice = createSlice({
       state.message = "";
     },
     logout: (state) => {
+      localStorage.removeItem("jwt");
       state.detailsUser = null;
     },
   },

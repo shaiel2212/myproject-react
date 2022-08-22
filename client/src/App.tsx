@@ -1,5 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { BrowserRouter as Router, Route, Link, Routes } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Route,
+  Link,
+  Routes,
+  Navigate,
+} from "react-router-dom";
 
 import { Container, Nav, Navbar, NavDropdown } from "react-bootstrap";
 import AddVacation from "./components/Admin/Vacation/FormVacation";
@@ -12,6 +18,7 @@ import { RegisterPage } from "./components/auth/registerPage";
 import VacationCard from "./components/Vacation/VacationCard";
 import { LoginPage } from "./components/auth/loginPage";
 import { verifyToken } from "./store/redusers/AuthSlice";
+import NavBar from "./components/Nabar/NavBar";
 
 function App() {
   const [routesMap, setRoutesMap] = useState(routes);
@@ -31,55 +38,18 @@ function App() {
   }, [detailsUser]);
   return (
     <Router>
-      <Navbar
-        expand="lg"
-        sticky="top"
-        variant="dark"
-        bg="dark"
-        className="App"
-        key={Math.random()}
-        style={{ textAlign: "left" }}
-      >
-        <Container>
-          <Navbar.Brand
-            style={{ margin: "10px", fontSize: "24px" }}
-            as={Link}
-            to="/"
-          >
-            Vacation App
-          </Navbar.Brand>
-        </Container>
-        {routesMap.map((route: IRoute) => (
-          <span key={route.linkText} style={{ margin: "5px" }}>
-            <Nav.Link
-              as={Link}
-              key={route.linkText}
-              style={{
-                textDecoration: "none",
-                color: "white",
-                whiteSpace: "nowrap",
-              }}
-              to={route.path}
-            >
-              {route.linkText}
-            </Nav.Link>
-          </span>
-        ))}
-        <Container>
-          <Nav style={{ marginLeft: "80%", color: "white" }}>
-            <NavDropdown title={""}>Logout</NavDropdown>
-          </Nav>
-        </Container>
-      </Navbar>
+      <NavBar />
       <Routes>
         {detailsUser?.token ? (
           <>
             <Route element={<VacationCard />} path="/vacations" />
+            <Route path="*" element={<Navigate to="/vacations" replace />} />
           </>
         ) : (
           <>
             <Route element={<LoginPage />} path="/login" />
             <Route element={<RegisterPage />} path="/register" />
+            <Route path="*" element={<Navigate to="/login" replace />} />
           </>
         )}
       </Routes>
