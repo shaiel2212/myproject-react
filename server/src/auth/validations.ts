@@ -1,6 +1,5 @@
-import { getConnection } from "../../db";
+
 import bcrypt from "bcrypt";
-import { addUserQuery } from "./query";
 
 export async function isPasswordMatch(
   user: any,
