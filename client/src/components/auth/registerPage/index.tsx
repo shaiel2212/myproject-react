@@ -9,8 +9,10 @@ import {
 } from "../../../store/redusers/AuthSlice";
 import { isEmpty } from "../../../utils/_NotEmptyObject";
 import { Alert } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
 
 export function RegisterPage() {
+  const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const { message, isRegisterSuccess } = useAppSelector(
     (state) => state.authSlice
@@ -42,7 +44,10 @@ export function RegisterPage() {
   async function register(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     if (!isEmpty(registerValues)) return;
-    dispatch(registerRequest(registerValues));
+    await dispatch(registerRequest(registerValues));
+    navigate("/login");
+    
+    //
   }
   const clearMessage = setTimeout(() => dispatch(removeMessage()), 5000);
   useEffect(() => {
