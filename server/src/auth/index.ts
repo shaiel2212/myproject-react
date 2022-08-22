@@ -4,26 +4,7 @@ const router = Router();
 
 import { addUser, isUserExist } from "./businessLogic";
 import { signToken } from "./helper";
-import { isPasswordMatch, removeSession } from "./validations";
-
-export async function logoutHandler(
-  req: any,
-  res: any
-): Promise<{ message: string }> {
-  const authorizationHeader = req.headers["authorization"];
-  if (!authorizationHeader) return res.status(400).json();
-  try {
-    const success = removeSession(authorizationHeader);
-    if (!success)
-      return res.status(400).json({
-        message: "Failed to remove Session",
-      });
-    res.json({ message: "user logged out" });
-  } catch (err) {
-    console.log(err);
-    return res.status(500).send({ message: "ERROR" });
-  }
-}
+import { isPasswordMatch } from "./validations";
 
 export async function loginHandler(
   req: any,
