@@ -19,6 +19,7 @@ import VacationCard from "./components/Vacation/VacationCard";
 import { LoginPage } from "./components/auth/loginPage";
 import { verifyToken } from "./store/redusers/AuthSlice";
 import NavBar from "./components/Nabar/NavBar";
+import axiosInstance from "./service";
 
 function App() {
   const [routesMap, setRoutesMap] = useState(routes);
@@ -29,6 +30,21 @@ function App() {
   useEffect(() => {
     console.log({ jwt });
     jwt && dispatch(verifyToken(jwt));
+    axiosInstance.interceptors.request.use(
+      async (config) => {
+        const session = JSON.parse(localStorage?.getItem("jwt")!);
+
+        if (session) {
+          config.headers = {
+            ...config.headers,
+            authorization: `Bearer ${session}`,
+          };
+        }
+
+        return config;
+      },
+      (error) => Promise.reject(error)
+    );
   }, [dispatch, jwt]);
 
   useEffect(() => {
