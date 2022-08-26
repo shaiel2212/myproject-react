@@ -12,7 +12,7 @@ export function signToken(obj: {
     {
       data: {
         ...obj,
-        password: null,
+     
         role: "viewer",
       },
     },

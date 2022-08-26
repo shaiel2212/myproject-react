@@ -30,7 +30,7 @@ export const registerRequest = createAsyncThunk(
       return data;
     } catch (error: any) {
       if (error) {
-        console.log(error?.response?.data);
+    
         return err.rejectWithValue(error?.response?.data);
       }
     }
@@ -39,14 +39,15 @@ export const registerRequest = createAsyncThunk(
 
 export const verifyToken = createAsyncThunk(
   "Send verify Token",
-  async (payload: string, err) => {
+  async (_, err) => {
     try {
-      const { data } = await auth.verifyToken(payload);
-      console.log({ data });
+   
+      const { data } = await auth.verifyToken();
+  
       return data;
     } catch (error: any) {
       if (error) {
-        console.log(error?.response?.data);
+      
         return err.rejectWithValue(error?.response?.data);
       }
     }
@@ -99,7 +100,7 @@ const authSlice = createSlice({
         state.isLoading = true;
       })
       .addCase(registerRequest.fulfilled, (state, action) => {
-        console.log(action.payload);
+     
         state.isLoading = false;
         state.isRegisterSuccess = true;
         state.message = action.payload.message as string;

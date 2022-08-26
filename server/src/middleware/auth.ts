@@ -2,33 +2,34 @@ import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
 import { signToken } from "../auth/helper";
 import { getUserByUserName } from "../auth/query";
-import { getDetailsByUserName } from "../auth/businessLogic";
-import { response } from "express";
+import { getDetailsByUserName, isUserExist } from "../auth/businessLogic";
+import { NextFunction, response } from "express";
+import { handelDecodeJwt } from "../utils/decodedToken";
+import { createJwt } from "..";
+import { IUserDB } from "../Interface/IUser.interface";
 
 dotenv.config({ path: "../../.env" });
-const SECRET: any = process.env.SECRET;
 
-export default async function verifyToken(req: any, res: any, next: any) {
-  const authorization = req?.headers?.authorization.split(" ")[1];
+export default async function verifyToken(
+  req: any,
+  res: any,
+  next: NextFunction
+) {
+  const getJwt = req.header("authorization").split(" ")[1];
 
-  jwt.verify(authorization, SECRET, async (err: any, decoded: any) => {
-    if (err) {
-      return res.status(401);
-    } else {
-      req.userData = decoded?.data;
-      const [getUserDetails]: any = await getDetailsByUserName(
-        req?.userData?.user_name
-      );
-      const createNewToken = signToken(req.userData);
-      const { user_name, isAdmin } = getUserDetails;
-      return res.send({
-        userName: user_name,
-        isAdmin,
-        message: "Success Login",
-        token: createNewToken,
-      });
-    }
-  });
+  const { payload }: any = await handelDecodeJwt(getJwt);
+  const currentUser: IUserDB = await isUserExist(payload.userName);
+  console.log({currentUser})
+  const { isAdmin, first_name, last_name, user_name, id } = currentUser;
+  const token = await createJwt(user_name, isAdmin === "0" ? false : true);
+  res
+    .status(200)
+    .send({
+      userName: user_name,
+      message: "SSuccessfully authenticated",
+      token,
+      isAdmin,
+    });
 }
 // {
 //   "userName": "shaiel12",

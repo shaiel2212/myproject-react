@@ -29,7 +29,7 @@ export const addVacationRequest = createAsyncThunk(
       return data;
     } catch (error: any) {
       if (error) {
-        console.log(error?.response?.data);
+      
         return err.rejectWithValue(error?.response?.data);
       }
     }
@@ -121,7 +121,7 @@ const vacationSlice = createSlice({
         state.isLoading = true;
       })
       .addCase(addVacationRequest.fulfilled, (state, action) => {
-        console.log(action.payload);
+   
         state.isLoading = false;
         state.vacations = action.payload as IVacation[];
         state.message = action.payload.message as string;
@@ -136,7 +136,7 @@ const vacationSlice = createSlice({
         state.isLoading = true;
       })
       .addCase(editVacationRequest.fulfilled, (state, action) => {
-        console.log(action.payload, "action.payload");
+      
 
         state.isLoading = false;
         state.status = "success";
@@ -151,7 +151,7 @@ const vacationSlice = createSlice({
         state.isLoading = true;
       })
       .addCase(deleteVacationRequest.fulfilled, (state, action) => {
-        console.log({ action }, "delete action");
+       
         state.isLoading = false;
         state.status = "success";
         state.vacations?.filter(

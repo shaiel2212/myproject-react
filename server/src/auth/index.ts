@@ -1,4 +1,5 @@
 import { Router } from "express";
+import { createJwt } from "..";
 import { IUser, IUserDB } from "../Interface/IUser.interface";
 const router = Router();
 
@@ -22,12 +23,8 @@ export async function loginHandler(
   if (!isPassword)
     return res.status(401).send("User not Authorized - Go to Hell!");
   const { user_name, first_name, last_name, id, isAdmin } = currentUser;
-  const token = signToken({
-    first_name,
-    last_name,
-    user_name,
-    id,
-  });
+  const token = await createJwt(user_name, isAdmin === "0" ? false : true);
+  console.log({ token });
   return res.json({ userName, message: `Success Login`, token, isAdmin });
 }
 
@@ -37,7 +34,8 @@ export async function registerHandler(
   next: any
 ): Promise<{ newUser: IUserDB; message: string } | { message: string }> {
   const { userName, firstName, lastName, password } = req.body;
-  if(!userName || !firstName || !lastName || !password) return res.json({ massage: "ERROR fields " })
+  if (!userName || !firstName || !lastName || !password)
+    return res.json({ massage: "ERROR fields " });
   const payload = { userName, firstName, lastName, password };
   try {
     const isUser: IUserDB = await isUserExist(userName);
@@ -51,4 +49,3 @@ export async function registerHandler(
 }
 
 export default router;
-

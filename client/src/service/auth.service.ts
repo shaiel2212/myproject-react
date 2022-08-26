@@ -8,10 +8,7 @@ export const auth = {
 
   register: async (payload: IRegisterPayload) =>
     await axiosInstance.post("/register", payload),
-  verifyToken: async (token: string) => {
-
-   return await axiosInstance.get("/verifyToken", {
-      headers: { Authorization: `Bearer ${token}` },
-    });
+  verifyToken: async () => {
+    return await axiosInstance.get("/verifyToken");
   },
 };

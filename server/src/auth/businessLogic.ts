@@ -7,7 +7,7 @@ export async function isUserExist(userName: string): Promise<IUserDB> {
   try {
     const query = getUserByUserName();
 
-    const [[result]] = await getConnection().execute(query, [userName]);
+    const [[result]]:any = await getConnection().execute(query, [userName]);
 
     return result;
   } catch (error) {
@@ -21,7 +21,7 @@ export async function addUser(user: Register): Promise<IUserDB> {
   const query = addUserQuery();
   const newPassword = await hashPassword(password);
   try {
-    const row = await getConnection().execute(query, [
+    const row:any = await getConnection().execute(query, [
       userName,
       firstName,
       lastName,

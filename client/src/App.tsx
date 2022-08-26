@@ -20,16 +20,13 @@ import { LoginPage } from "./components/auth/loginPage";
 import { verifyToken } from "./store/redusers/AuthSlice";
 import NavBar from "./components/Nabar/NavBar";
 import axiosInstance from "./service";
-
+const jwt = getItem("jwt");
 function App() {
-  const [routesMap, setRoutesMap] = useState(routes);
   const { isLoading, detailsUser } = useAppSelector((state) => state.authSlice);
-  const [isLogin, setIsLogin] = useState(false);
+
   const dispatch = useAppDispatch();
-  const jwt = getItem("jwt");
+
   useEffect(() => {
-    console.log({ jwt });
-    jwt && dispatch(verifyToken(jwt));
     axiosInstance.interceptors.request.use(
       async (config) => {
         const session = JSON.parse(localStorage?.getItem("jwt")!);
@@ -45,7 +42,8 @@ function App() {
       },
       (error) => Promise.reject(error)
     );
-  }, [dispatch, jwt]);
+    jwt && dispatch(verifyToken());
+  }, [dispatch]);
 
   useEffect(() => {
     if (detailsUser) {
