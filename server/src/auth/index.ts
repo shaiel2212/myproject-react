@@ -14,18 +14,25 @@ export async function loginHandler(
 ): Promise<IUserDB> {
   const { userName, password } = req.body;
 
-  const currentUser: IUserDB = await isUserExist(userName);
+  try {
+    const currentUser: IUserDB = await isUserExist(userName);
 
-  if (!currentUser) return res.status(404).send("User not found");
+    if (!currentUser) return res.status(404).send("User not found");
 
-  const isPassword = await isPasswordMatch(currentUser, password);
+    const isPassword = await isPasswordMatch(currentUser, password);
 
-  if (!isPassword)
-    return res.status(401).send("User not Authorized - Go to Hell!");
-  const { user_name, first_name, last_name, id, isAdmin } = currentUser;
-  const token = await createJwt(user_name, isAdmin === "0" ? false : true);
-  console.log({ token });
-  return res.json({ userName, message: `Success Login`, token, isAdmin });
+    if (!isPassword)
+      return res.status(401).send("User not Authorized - Go to Hell!");
+    const { user_name,  isAdmin } = currentUser;
+    const token = await createJwt(user_name, isAdmin === "0" ? false : true);
+    console.log({ token });
+    return res.json({ userName, message: `Success Login`, token, isAdmin });
+  } catch (error) {
+    console.log(error)
+    res.status(401).send({
+      message: `failed with ${error.message}`,
+    });
+  }
 }
 
 export async function registerHandler(

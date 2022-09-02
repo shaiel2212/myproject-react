@@ -45,26 +45,33 @@ export function RegisterPage() {
     event.preventDefault();
     if (!isEmpty(registerValues)) return;
     await dispatch(registerRequest(registerValues));
-    navigate("/login");
-    
+
     //
   }
   const clearMessage = setTimeout(() => dispatch(removeMessage()), 5000);
   useEffect(() => {
-    clearTimeout(clearMessage);
-    return () => clearTimeout(clearMessage);
+    if (message) clearTimeout(clearMessage);
   }, [dispatch, message]);
-
+  useEffect(() => {
+    if (isRegisterSuccess && message === null) {
+      navigate("/login");
+    }
+    return () => {
+      removeMessage();
+    };
+  }, [isRegisterSuccess, message, navigate]);
   return (
     <div>
       <h1>Register Page</h1>
       <div>
         {" "}
-        {/* {message?.length ? (
+        {message?.length ? (
           <Alert variant={isRegisterSuccess ? "success" : "danger"}>
             {message}
           </Alert>
-        ) : <></>} */}
+        ) : (
+          <></>
+        )}
       </div>
       <form onSubmit={(e) => register(e)}>
         <div className="form-container">
@@ -111,7 +118,7 @@ export function RegisterPage() {
               />
             </span>
           </div>
-          <div>
+          <div className="container--button">
             <button className="btn--submit--create--user" type="submit">
               Send
             </button>

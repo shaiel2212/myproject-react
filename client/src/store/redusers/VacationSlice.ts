@@ -1,4 +1,5 @@
 import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
+import { error } from "console";
 
 import { auth } from "../../service/auth.service";
 import { vacationService } from "../../service/vacations.servise";
@@ -54,6 +55,7 @@ export const deleteVacationRequest = createAsyncThunk(
   async (vacation_id: string | number, err) => {
     try {
       const { data } = await vacationService.delete(vacation_id);
+      err.dispatch(vacationSlice.actions.deleteOneVacationById(vacation_id))
       return data;
     } catch (error) {
       if (error) {
@@ -100,6 +102,10 @@ const vacationSlice = createSlice({
     closeModal: (state) => {
       state.showModal = false;
     },
+    deleteOneVacationById : (state,{payload})=>{
+      console.log(payload,"id vacation")
+     state.vacations = state?.vacations?.filter(({vacation_id})=> vacation_id !== payload)
+    }
   },
 
   extraReducers(builder) {

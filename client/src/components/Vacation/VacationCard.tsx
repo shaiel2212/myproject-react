@@ -1,5 +1,5 @@
 import moment from "moment";
-import { Button, Card } from "react-bootstrap";
+import { Button, Card, Col, Row } from "react-bootstrap";
 import { IVacation } from "../../interface/Vacation.interface";
 import { useAppDispatch, useAppSelector } from "../Hook/ReduxHook";
 import { useEffect } from "react";
@@ -32,6 +32,10 @@ function VacationCard() {
     dispatch(deleteVacationRequest(vacation_id));
   }
 
+  useEffect(() => {
+    dispatch(vacationRequest());
+  }, [dispatch]);
+
   if (isLoading) {
     return (
       <>
@@ -52,16 +56,23 @@ function VacationCard() {
     </>
   );
   return (
-    <div className="container">
-      <h1> vacations page </h1>
-      {detailsUser?.isAdmin === 1 && (
-        <button onClick={() => dispatch(openModal())}>
-          create new vacation
-        </button>
-      )}
+    <Row>
+      <Col lg="12">
+        <Row className="justify-content-md-center text-center">
+          <Col xs lg="2" className="">
+            {" "}
+            <h1> vacations page </h1>{" "}
+            {detailsUser?.isAdmin === 1 && (
+              <Button variant="primary" onClick={() => dispatch(openModal())}>
+                create new vacation
+              </Button>
+            )}
+          </Col>
+        </Row>
+      </Col>
       {vacations?.map((vac: IVacation) => {
         return (
-          <div key={vac.vacation_id}>
+          <Col sx={6} key={vac.vacation_id}>
             <Card style={{ width: "18rem" }}>
               <Card.Img
                 variant="top"
@@ -107,11 +118,11 @@ function VacationCard() {
                 </Card.Body>
               </div>
             </Card>
-          </div>
+          </Col>
         );
       })}
       {VacationModalForm}
-    </div>
+    </Row>
   );
 }
 

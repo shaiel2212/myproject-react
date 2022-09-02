@@ -7,6 +7,7 @@ import {
   IUserLogin,
   IRegisterPayload,
 } from "./../../interface/User.interface";
+import { AxiosError } from "axios";
 
 export const loginRequest = createAsyncThunk(
   "Send Request Login",
@@ -17,7 +18,8 @@ export const loginRequest = createAsyncThunk(
       return data;
     } catch (error: any) {
       if (error) {
-        return err.rejectWithValue(error.message);
+        console.log(error)
+        return err.rejectWithValue(error.response.data);
       }
     }
   }
@@ -30,8 +32,8 @@ export const registerRequest = createAsyncThunk(
       return data;
     } catch (error: any) {
       if (error) {
-    
-        return err.rejectWithValue(error?.response?.data);
+        console.log(error);
+        return err.rejectWithValue(error.response.data);
       }
     }
   }
@@ -41,14 +43,12 @@ export const verifyToken = createAsyncThunk(
   "Send verify Token",
   async (_, err) => {
     try {
-   
       const { data } = await auth.verifyToken();
-  
+
       return data;
     } catch (error: any) {
       if (error) {
-      
-        return err.rejectWithValue(error?.response?.data);
+        return err.rejectWithValue(error.response.data);
       }
     }
   }
@@ -74,7 +74,7 @@ const authSlice = createSlice({
   initialState,
   reducers: {
     removeMessage: (state) => {
-      state.message = "";
+      state.message = null;
     },
     logout: (state) => {
       localStorage.removeItem("jwt");
@@ -100,7 +100,6 @@ const authSlice = createSlice({
         state.isLoading = true;
       })
       .addCase(registerRequest.fulfilled, (state, action) => {
-     
         state.isLoading = false;
         state.isRegisterSuccess = true;
         state.message = action.payload.message as string;
