@@ -3,7 +3,9 @@ import {
   createVacationQuery,
   deleteVacationQuery,
   readVacationQuery,
+  
   updateVacationQuery,
+  updateLikeVacationByUserIdQuery,
 } from "./query";
 
 export async function addVacation({
@@ -95,5 +97,22 @@ export async function updateVacation({
   } catch (error) {
     console.log("Error", error);
     return false;
+  }
+}
+
+
+export async function AddFollowersToVacationById({
+  vacationId,
+  userId,
+}: {
+  vacationId: number;
+  userId: number;
+}) {
+  const query = updateLikeVacationByUserIdQuery();
+  try {
+    await getConnection().execute(query, [vacationId, userId]);
+    return true;
+  } catch (error) {
+    console.log("error in ToggleLikeVacationById", error);
   }
 }

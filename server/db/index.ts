@@ -3,22 +3,20 @@ import dotenv from "dotenv";
 
 dotenv.config();
 
-const {
-  MYSQL_DB_HOST: host,
-  MYSQL_DB_PORT: port,
-  MYSQL_DB_USER: user,
-  MYSQL_DB_PASS: password,
-  MYSQL_DB_SCHEMA: database,
-} = process.env;
-const config = { host, port, user, password, database };
+const config = {
+  host: "localhost",
+  port: "3306",
+  user: "root",
+  password: "11111111",
+  database: "vacation-app",
+};
 let connection: Connection = null;
 
 async function initDB() {
-
   try {
     connection = await mysql2.createConnection(config as unknown as string);
   } catch (error) {
-  
+    console.log(error);
     process.exit(1);
   }
 }

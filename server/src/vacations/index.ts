@@ -1,9 +1,12 @@
+import { Request, Response } from "express";
 import {
   addVacation,
   getVacations,
   deleteVacations,
   updateVacation,
+  AddFollowersToVacationById,
 } from "./bussinessLogic";
+import { updateLikeVacationByUserIdQuery } from "./query";
 
 export async function addVacationHandler(req: any, res: any, next: any) {
   try {
@@ -73,5 +76,21 @@ export async function updateVacationHandler(req: any, res: any, next: any) {
     return res
       .status(200)
       .send({ success: false, message: "Failed to Update" });
+  }
+}
+
+export async function updateFollowerVacation(
+  req: Request,
+  res: Response,
+  next: any
+) {
+  const { vacationId, userId } = req.body;
+
+  try {
+    await AddFollowersToVacationById({ userId, vacationId });
+    res.send("ok");
+  } catch (error) {
+    console.log(error);
+    res.send(error);
   }
 }
